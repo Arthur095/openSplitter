@@ -20,9 +20,12 @@ import java.util.TimeZone;
 
 public class Chrono implements Serializable {
 
-	/*Attributes*/
-	private static final long serialVersionUID = 1L;
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = -246687182791063554L;
 	
+	/*Attributes*/
     private Timeline timeline;
     private DoubleProperty timeSeconds = new SimpleDoubleProperty();
     private StringProperty fullTimer = new SimpleStringProperty();
