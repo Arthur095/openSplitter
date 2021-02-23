@@ -38,7 +38,7 @@
                     <buttons>
                       <Button mnemonicParsing="false" prefHeight="87.0" text="Reset" />
                         <ToggleButton mnemonicParsing="false" prefHeight="66.0" text="Hide/Show" />
-                        <Button layoutX="135.0" layoutY="18.0" mnemonicParsing="false" prefHeight="61.0" text="Pause" />
+                        <Button layoutX="135.0" layoutY="18.0" mnemonicParsing="false" onAction="#pauseSplitTimer" prefHeight="61.0" text="Pause" />
                     </buttons>
                   </ButtonBar>
                   <Label layoutX="10.0" layoutY="136.0" text="v1.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="10.0" />
@@ -47,9 +47,10 @@
             </AnchorPane>
             <TableView fx:id="splitTable" prefHeight="304.0" prefWidth="301.0" tableMenuButtonVisible="true" GridPane.columnIndex="1">
               <columns>
-                <TableColumn fx:id="logoColumn" prefWidth="44.0" sortable="false" text="Logo" />
-                <TableColumn fx:id="splitColumn" prefWidth="180.0" sortable="false" text="Split" />
-                  <TableColumn fx:id="bestTimeColumn" prefWidth="96.0" sortable="false" text="Best" />
+                <TableColumn fx:id="logoColumn" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Logo" />
+                <TableColumn fx:id="splitColumn" prefWidth="139.0" sortable="false" text="Split" />
+                  <TableColumn prefWidth="75.0" text="Best Split" />
+                  <TableColumn fx:id="bestTimeColumn" prefWidth="96.0" sortable="false" text="PB" />
                   <TableColumn fx:id="timeColumn" prefWidth="128.0" sortable="false" text="Time" />
               </columns>
                <columnResizePolicy>

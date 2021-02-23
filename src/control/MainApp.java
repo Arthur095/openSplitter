@@ -25,13 +25,16 @@ public class MainApp extends Application {
      */
 	public MainApp() {
 		// Add some sample data
-		tableData.add(new Split("Hans", "Lol", null, 12.453));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
-		tableData.add(new Split("Ruth","ded", null, 12.323));
+		tableData.add(new Split("Hans", "Lol", null, null));
+		tableData.add(new Split("Ruth","ded", null, null));
+		tableData.add(new Split("Ruth","ded", null, null));
+		tableData.add(new Split("Ruth","ded", null, null));
+		tableData.add(new Split("Ruth","ded", null, null));
+		tableData.add(new Split("Ruth","ded", null, null));
+		
+		//Total column
+		tableData.add(new Split(null,null, null, null));
+		tableData.add(new Split("Total","D:\\java_workspace\\SpeedrunTimer\\resources\\logo\\flag.png", null, null));
 	}
 
 	/**
