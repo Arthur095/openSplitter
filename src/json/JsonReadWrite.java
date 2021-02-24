@@ -21,7 +21,7 @@ public class JsonReadWrite {
 
 	//private static JsonParser parser = new JsonParser();
 	private String jsonPath;
-	private String jsonTestPath = "D:\\java_workspace\\SpeedrunTimer\\resources\\json\\test.jon";
+	private String jsonTestPath = "D:\\java_workspace\\SpeedrunTimer\\resources\\json\\test.json";
 	private HashMap<String, ArrayList<Split>> gameData = new HashMap<String, ArrayList<Split>>();
 	
 	public JsonReadWrite(String jsonPath) {
@@ -33,26 +33,18 @@ public class JsonReadWrite {
 		ObservableList<Split> game = FXCollections.observableArrayList();
 		try
 		{ 
-			//Object jsonobject = parser.parse(new FileReader(jsonPath));
             JsonObject runSet = (JsonObject) Jsoner.deserialize(new FileReader(jsonPath));            
             JsonArray splits = (JsonArray) runSet.get(gameName);
             for (Object split : splits.toArray()) {
             	JsonObject split_features = (JsonObject) split;
-            	String sob;
-            	String pb;
-            	if (split_features.get("sob").equals("null")) {
-            		sob = null;
-            	}
-            	else {
+            	String sob = null;
+            	String pb = null;
+            	if (!(split_features.get("sob").equals("null"))) {
             		sob = (String) split_features.get("sob");
             	}
-            	if (split_features.get("pb").equals("null")) {
-            		pb = null;
-            	}
-            	else {
+            	if (!(split_features.get("pb").equals("null"))) {
             		pb = (String) split_features.get("sob");
             	}
-            	//String bloup = null;
             	Split Segment = new Split(split_features.get("name").toString(),split_features.get("logo").toString(), sob, pb);
             	game.add(Segment);
             	}

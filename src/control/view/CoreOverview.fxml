@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.CoreOverviewController">
+<AnchorPane maxWidth="450.0" minWidth="450.0" prefHeight="720.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.CoreOverviewController">
    <children>
       <GridPane prefHeight="720.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -26,7 +26,7 @@
             <RowConstraints maxHeight="348.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <AnchorPane maxHeight="1080.0" maxWidth="450.0" minHeight="181.0" minWidth="300.0" prefHeight="181.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <AnchorPane maxHeight="1080.0" maxWidth="450.0" minHeight="181.0" minWidth="450.0" prefHeight="181.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="currentTimeSeconds" layoutX="142.0" layoutY="70.0" prefHeight="92.0" prefWidth="237.0" text="00:00:00.000" textFill="#f68fff" AnchorPane.bottomAnchor="19.0">
                      <font>
@@ -52,7 +52,7 @@
                   <Button layoutX="148.0" layoutY="8.0" mnemonicParsing="false" onAction="#startSplitTimer" prefHeight="92.0" prefWidth="152.0" text="Start/Split" AnchorPane.bottomAnchor="60.0" />
                </children>
             </AnchorPane>
-            <TableView fx:id="splitTable" prefHeight="304.0" prefWidth="301.0" tableMenuButtonVisible="true" GridPane.columnIndex="1">
+            <TableView fx:id="splitTable" prefHeight="436.0" prefWidth="430.0" tableMenuButtonVisible="true" GridPane.columnIndex="1">
               <columns>
                 <TableColumn fx:id="logoColumn" editable="false" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Logo" />
                 <TableColumn fx:id="splitColumn" editable="false" prefWidth="139.0" sortable="false" text="Split" />

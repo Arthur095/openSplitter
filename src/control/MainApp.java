@@ -38,18 +38,13 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Speedrun Timer");
-    
-        primaryStage.widthProperty().addListener((o, oldValue, newValue)->{
-            if(newValue.intValue() > 450.0 || newValue.intValue() < 450.0) {
-            	primaryStage.setResizable(false);
-            	primaryStage.setWidth(450);
-            	primaryStage.setResizable(true);
-            }
-        });
+        this.primaryStage.setTitle("openSplitter v1.0");
 
         initRootLayout();
         showCoreOverview();
+        
+        this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
+        this.primaryStage.setMinWidth(this.primaryStage.getWidth());
         
     }
     
