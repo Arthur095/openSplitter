@@ -30,7 +30,7 @@ public class Chrono implements Serializable {
     private DoubleProperty timeSeconds = new SimpleDoubleProperty();
     private StringProperty fullTimer = new SimpleStringProperty();
     private Duration time = Duration.ZERO;
-    private static SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+    private static SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS"); //Alternatively "HH'h'mm'm'ss.SSS's'"
     static {
     	format.setTimeZone(TimeZone.getTimeZone("GMT"));
     };

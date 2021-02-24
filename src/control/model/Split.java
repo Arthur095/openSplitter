@@ -8,31 +8,57 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Split {
 
-	private StringProperty split = new SimpleStringProperty();
+	private StringProperty splitName = new SimpleStringProperty();
 	private ObjectProperty<ImageView> logo = new SimpleObjectProperty<>();
 	private StringProperty time = new SimpleStringProperty();
-	private StringProperty bestTime = new SimpleStringProperty();
+	private StringProperty personalBest = new SimpleStringProperty();
+	private StringProperty sumOfBest = new SimpleStringProperty();
+	private StringProperty delta = new SimpleStringProperty();
 	
+	/**
+	 * Default constructor
+	 */
+	public Split() {}
 	
-	public Split(String split, String logo, String time, String bestTime) {
-		
-		this.split.setValue(split);
-		this.time.setValue(time);
-		this.bestTime.setValue(bestTime);
-		if(logo == null) {
-			logo = "default.png";
-		}
-		ImageView img = new ImageView(new File(logo).toURI().toString());
+	/**
+	 * Only Split name constructor.
+	 * @param split
+	 */
+	public Split(String split) {
+		this.splitName.setValue(split);
+		ImageView img = new ImageView(new File("./resources/logo/flag.png").toURI().toString());
+		img.setFitHeight(30);
+		img.setFitWidth(30);
 		this.logo.setValue(img);
 	}
 	
-	public StringProperty splitProperty() {
-		return split;
+	/**
+	 * Full constructor
+	 * @param split
+	 * @param logoPath
+	 * @param personalBest
+	 * @param sumOfBest
+	 */
+	public Split(String split, String logoPath, String personalBest, String sumOfBest) {
+		
+		this.splitName.setValue(split);
+		this.personalBest.setValue(personalBest);
+		this.sumOfBest.setValue(sumOfBest);
+		if(logoPath.equals("-")) {
+			logoPath = "./resources/logo/default.png";
+		}
+		ImageView img = new ImageView(new File(logoPath).toURI().toString());
+		img.setFitHeight(30);
+		img.setFitWidth(30);
+		this.logo.setValue(img);
+	}
+	
+	public StringProperty splitNameProperty() {
+		return splitName;
 	}
 	
 	public ObjectProperty<ImageView> logoProperty() {
@@ -43,16 +69,17 @@ public class Split {
 		return time;
 	}
 	
-	public StringProperty bestTimeProperty() {
-		return bestTime;
+	public StringProperty personalBestProperty() {
+		return personalBest;
 	}
-	
-	public void setTime(StringProperty time) {
-		this.time = time;
-		
+	public StringProperty sumOfBestProperty() {
+		return sumOfBest;
+	}
+	public StringProperty deltaProperty() {
+		return delta;
 	}
 
-	public void setBestTime(String bestTime) {
-		this.bestTime.setValue(bestTime);
-	}
+	
 }
+	
+	

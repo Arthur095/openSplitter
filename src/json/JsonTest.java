@@ -1,6 +1,6 @@
 package json;
 
-public class readData {
+public class JsonTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

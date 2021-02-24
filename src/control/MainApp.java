@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import json.JsonReadWrite;
 
 public class MainApp extends Application {
 
@@ -24,17 +25,11 @@ public class MainApp extends Application {
      * Empty Constructor
      */
 	public MainApp() {
-		// Add some sample data
-		tableData.add(new Split("Hans", "Lol", null, null));
-		tableData.add(new Split("Ruth","ded", null, null));
-		tableData.add(new Split("Ruth","ded", null, null));
-		tableData.add(new Split("Ruth","ded", null, null));
-		tableData.add(new Split("Ruth","ded", null, null));
-		tableData.add(new Split("Ruth","ded", null, null));
-		
-		//Total column
-		tableData.add(new Split(null,null, null, null));
-		tableData.add(new Split("Total","D:\\java_workspace\\SpeedrunTimer\\resources\\logo\\flag.png", null, null));
+		JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
+		tableData.add(new Split("Choose"));
+		tableData.add(new Split("a"));
+		tableData.add(new Split("game"));
+		tableData.add(new Split("!"));
 	}
 
 	/**
@@ -116,12 +111,12 @@ public class MainApp extends Application {
 		return primaryStage;
 	}
 
+	/**
+	 * Returns the game splits in tableview.
+	 * @return
+	 */
     public ObservableList<Split> getTableData() {
 		return tableData;
-	}
-
-	public void setTableData(ObservableList<Split> tableData) {
-		this.tableData = tableData;
 	}
 
 }

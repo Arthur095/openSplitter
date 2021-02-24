@@ -9,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,7 +17,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import json.JsonReadWrite;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.github.cliftonlabs.json_simple.JsonException;
 
 public class CoreOverviewController {
 	
@@ -24,6 +30,8 @@ public class CoreOverviewController {
 	private Chrono splitTimer = new Chrono();
 	private int splitTableId = 0;
 	private ArrayList<Double> currentSplitTimes = new ArrayList<Double>();
+	private ArrayList<Double> currentSumOfBest = new ArrayList<Double>();
+	private ArrayList<Double> currentPersonalBest = new ArrayList<Double>();
 	
 	/*Timer attribute*/
 	@FXML
@@ -41,9 +49,17 @@ public class CoreOverviewController {
     @FXML
     private TableColumn<Split, String> splitColumn;
     @FXML
+    private TableColumn<Split, String> personalBestColumn;
+    @FXML
+    private TableColumn<Split, String> sumOfBestColumn;
+    @FXML
     private TableColumn<Split, String> timeColumn;
     @FXML
-    private TableColumn<Split, String> bestTimeColumn;
+    private TableColumn<Split, String> deltaColumn;
+    
+    /*ComboBox*/
+    @FXML 
+    private ComboBox<String> gameBox; 
     
     /* Reference to the main application.*/
     private MainApp mainApp;
@@ -58,14 +74,24 @@ public class CoreOverviewController {
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
+     * @throws JsonException 
+     * @throws IOException 
      */
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException, JsonException {
+    	JsonReadWrite inputFile = new JsonReadWrite("./resources/json/games.json");
+    	//Initialize timer label
+    	currentTimeSeconds.setText(splitTimer.formatTime(0.0));
+    	//Initialize game label
+    	gameBox.getItems().addAll(inputFile.gameList());
+    	
     	// Initialize the person table with the two columns.
         logoColumn.setCellValueFactory(cellData -> cellData.getValue().logoProperty());
-        splitColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
+        splitColumn.setCellValueFactory(cellData -> cellData.getValue().splitNameProperty());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
-        bestTimeColumn.setCellValueFactory(cellData -> cellData.getValue().bestTimeProperty());     
+        personalBestColumn.setCellValueFactory(cellData -> cellData.getValue().personalBestProperty());  
+        sumOfBestColumn.setCellValueFactory(cellData -> cellData.getValue().sumOfBestProperty()); 
+        deltaColumn.setCellValueFactory(cellData -> cellData.getValue().deltaProperty()); 
     }
 
     /**
@@ -136,7 +162,7 @@ public class CoreOverviewController {
     			splitTimer.getTimeline().stop();
     			splitTimer = new Chrono();
     			splitTableId = 0;
-    			splitTable.getSelectionModel().select(splitTableId);
+    			splitTable.getSelectionModel().select(mainApp.getTableData().size()-1);
     		}
     	}
     }//StartPlitTimer
@@ -152,7 +178,40 @@ public class CoreOverviewController {
     	return;
     }//pauseSplitTimer
     
+    /**
+     * Called when the user clicks on Reset : Reset time and make time table white.
+     */
+    @FXML
+    private void resetSplitTimer() {
+    	if(splitTimer.getTimeline() == null) {
+    		splitTimer.setTimeline(new Timeline());
+    	}
+    		splitTimer.getTimeline().stop();
+    		splitTableId = 0;
+    		splitTable.getSelectionModel().select(splitTableId);
+    		for(Split split : mainApp.getTableData()) {
+    			split.timeProperty().setValue(null);
+    		splitTimer = new Chrono();
+    		splitTimer.getFullTimer().setValue(splitTimer.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+    		currentTimeSeconds.textProperty().unbind();
+    		currentTimeSeconds.setText(splitTimer.formatTime(0.0));
+    	}
+    }
     
+    /**
+     * Load the game selected in the combobox bar.
+     * @param event
+     */
+    @FXML
+    private void chooseGame(ActionEvent event) {
+		mainApp.getTableData().clear();
+		JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
+		mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
+		
+		//Total column
+		mainApp.getTableData().add(new Split());
+		mainApp.getTableData().add(new Split("Total"));
+    }
     
     /*Methods*/
     
