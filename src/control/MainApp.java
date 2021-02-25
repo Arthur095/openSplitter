@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -25,11 +26,8 @@ public class MainApp extends Application {
      * Empty Constructor
      */
 	public MainApp() {
-		JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
-		tableData.add(new Split("Choose"));
-		tableData.add(new Split("a"));
-		tableData.add(new Split("game"));
-		tableData.add(new Split("!"));
+		//JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
+		tableData.add(new Split());
 	}
 
 	/**
@@ -45,7 +43,7 @@ public class MainApp extends Application {
         
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
         this.primaryStage.setMinWidth(this.primaryStage.getWidth());
-        
+        this.primaryStage.getIcons().add(new Image("file:./resources/logo/default.png"));
     }
     
     /**

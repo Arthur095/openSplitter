@@ -27,6 +27,8 @@ import com.github.cliftonlabs.json_simple.JsonException;
 public class CoreOverviewController {
 	
 	/*Attributes*/
+	private boolean hidden = false;
+	private String currentGame;
 	private Chrono splitTimer = new Chrono();
 	private int splitTableId = 0;
 	private ArrayList<Double> currentSplitTimes = new ArrayList<Double>();
@@ -82,7 +84,7 @@ public class CoreOverviewController {
     	JsonReadWrite inputFile = new JsonReadWrite("./resources/json/games.json");
     	//Initialize timer label
     	currentTimeSeconds.setText(splitTimer.formatTime(0.0));
-    	//Initialize game label
+    	//Initialize game combobox
     	gameBox.getItems().addAll(inputFile.gameList());
     	
     	// Initialize the person table with the two columns.
@@ -115,10 +117,13 @@ public class CoreOverviewController {
      * Called when the user clicks on the Start/Split.
      */
     @FXML
-    private void startSplitTimer() {	
+    private void startSplitTimer() {
+    	
+    	if(currentGame == null) {
+    		return;
+    	}
     	//Binding timer to label
     	currentTimeSeconds.textProperty().bind(splitTimer.getFullTimer());
-    	
     	//If timer exists and is paused resume it
     	if(splitTimer.getTimeline() != null && splitTimer.getTimeline().getStatus().toString().equals("PAUSED")) {
     		splitTimer.getTimeline().play();
@@ -196,7 +201,22 @@ public class CoreOverviewController {
     		currentTimeSeconds.textProperty().unbind();
     		currentTimeSeconds.setText(splitTimer.formatTime(0.0));
     	}
-    }
+    }//resetSplitTimer
+    
+    /**
+     * Hide or show the timer label 
+     */
+    @FXML
+    private void hideShowTimer() {
+    	if(hidden == false) {
+    		currentTimeSeconds.setVisible(false);
+    		hidden = true;
+    	}
+    	else {
+    		currentTimeSeconds.setVisible(true);
+    		hidden = false;
+    	}
+    }//hideShowTimer
     
     /**
      * Load the game selected in the combobox bar.
@@ -204,14 +224,20 @@ public class CoreOverviewController {
      */
     @FXML
     private void chooseGame(ActionEvent event) {
-		mainApp.getTableData().clear();
-		JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
-		mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
-		
-		//Total column
-		mainApp.getTableData().add(new Split());
-		mainApp.getTableData().add(new Split("Total"));
-    }
+    	if(!(splitTimer.getTimeline() == null)) {
+    		gameBox.getSelectionModel().select(currentGame);
+    	}
+    	else {
+    		currentGame = gameBox.getSelectionModel().getSelectedItem().toString();
+			mainApp.getTableData().clear();
+			JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
+			mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
+			
+			//Total column
+			mainApp.getTableData().add(new Split());
+			mainApp.getTableData().add(new Split("Total"));
+    	}
+    }//chooseGame
     
     /*Methods*/
     
@@ -223,5 +249,5 @@ public class CoreOverviewController {
     		previous = time;
     	}
     	return total;
-    }
+    }//sumTime
 }
