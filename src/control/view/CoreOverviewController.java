@@ -5,7 +5,6 @@ import control.MainApp;
 import control.model.Split;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,8 +12,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import json.JsonReadWrite;
@@ -27,6 +24,7 @@ import com.github.cliftonlabs.json_simple.JsonException;
 public class CoreOverviewController {
 	
 	/*Attributes*/
+	private String filePath = "D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json";
 	private boolean hidden = false;
 	private String currentGame;
 	private Chrono splitTimer = new Chrono();
@@ -35,13 +33,11 @@ public class CoreOverviewController {
 	private ArrayList<Double> currentSumOfBest = new ArrayList<Double>();
 	private ArrayList<Double> currentPersonalBest = new ArrayList<Double>();
 	
-	/*Timer attribute*/
-	@FXML
-	private Label currentTimeSeconds;
-	
 	/*Labels*/
 	@FXML
-	private Label gameName;
+	private Label currentTimeSeconds; //Timer
+	@FXML
+	private Label game;
 	
 	/*Table attributes*/
 	@FXML
@@ -83,7 +79,7 @@ public class CoreOverviewController {
     private void initialize() throws IOException, JsonException {
     	JsonReadWrite inputFile = new JsonReadWrite("./resources/json/games.json");
     	//Initialize timer label
-    	currentTimeSeconds.setText(splitTimer.formatTime(0.0));
+    	currentTimeSeconds.setText(Chrono.formatTime(0.0));
     	//Initialize game combobox
     	gameBox.getItems().addAll(inputFile.gameList());
     	
@@ -134,6 +130,7 @@ public class CoreOverviewController {
     	if(splitTimer.getTimeline() == null) {  
     		currentSplitTimes.clear();
     		splitTable.getSelectionModel().select(splitTableId);
+    		splitTable.scrollTo(splitTableId);
             splitTimer.setTimeline(new Timeline(
                 new KeyFrame(Duration.millis(1),
                 new EventHandler<ActionEvent>() {
@@ -142,7 +139,7 @@ public class CoreOverviewController {
                         Duration duration = ((KeyFrame)t.getSource()).getTime();
                         splitTimer.setTime(splitTimer.getTime().add(duration));
                         splitTimer.getTimeSeconds().set(splitTimer.getTime().toSeconds());
-                        splitTimer.getFullTimer().setValue(splitTimer.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+                        splitTimer.getFullTimer().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));
                     }
                 })
             ));
@@ -154,20 +151,29 @@ public class CoreOverviewController {
     		//If timer is running save current time in current split and go to next one
     		if(splitTableId < mainApp.getTableData().size()-3) {
     			currentSplitTimes.add(splitTimer.getTimeSeconds().doubleValue());
-	    		mainApp.getTableData().get(splitTableId).timeProperty().setValue(splitTimer.formatTime(splitTimer.getTimeSeconds().doubleValue()));
-	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(splitTimer.formatTime(sumTime(currentSplitTimes)));
+	    		getSplit().timeProperty().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+	    		
+	    		checkSumOfBest();
+	    		
 	    		splitTableId += 1;
 	    		splitTable.getSelectionModel().select(splitTableId);
+	    		splitTable.scrollTo(splitTableId);
     		}
     		//If last split is reached stop timer, reset it and go to start.
     		else {
     			currentSplitTimes.add(splitTimer.getTimeSeconds().doubleValue());
-    			mainApp.getTableData().get(splitTableId).timeProperty().setValue(splitTimer.formatTime(splitTimer.getTimeSeconds().doubleValue()));
-    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(splitTimer.formatTime(sumTime(currentSplitTimes)));
+    			getSplit().timeProperty().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));		
+    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+    			
+    			checkSumOfBest();
+    			checkPersonalBest();
+    			
     			splitTimer.getTimeline().stop();
     			splitTimer = new Chrono();
     			splitTableId = 0;
     			splitTable.getSelectionModel().select(mainApp.getTableData().size()-1);
+    			splitTable.scrollTo(mainApp.getTableData().size()-1);
     		}
     	}
     }//StartPlitTimer
@@ -194,12 +200,13 @@ public class CoreOverviewController {
     		splitTimer.getTimeline().stop();
     		splitTableId = 0;
     		splitTable.getSelectionModel().select(splitTableId);
+    		splitTable.scrollTo(splitTableId);
     		for(Split split : mainApp.getTableData()) {
     			split.timeProperty().setValue(null);
     		splitTimer = new Chrono();
-    		splitTimer.getFullTimer().setValue(splitTimer.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+    		splitTimer.getFullTimer().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));
     		currentTimeSeconds.textProperty().unbind();
-    		currentTimeSeconds.setText(splitTimer.formatTime(0.0));
+    		currentTimeSeconds.setText(Chrono.formatTime(0.0));
     	}
     }//resetSplitTimer
     
@@ -230,17 +237,73 @@ public class CoreOverviewController {
     	else {
     		currentGame = gameBox.getSelectionModel().getSelectedItem().toString();
 			mainApp.getTableData().clear();
-			JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
+			JsonReadWrite reader = new JsonReadWrite(filePath);
 			mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
 			
 			//Total column
 			mainApp.getTableData().add(new Split());
 			mainApp.getTableData().add(new Split("Total"));
+			
+			//Current times
+			currentSumOfBest.clear();
+			currentSumOfBest.addAll(reader.getGameTimes(currentGame,"sob"));
+			currentPersonalBest.clear();
+			currentPersonalBest.addAll(reader.getGameTimes(currentGame,"pb"));
+			
+			//Ram usage check for debugging purpose
+			System.gc();
     	}
     }//chooseGame
     
     /*Methods*/
     
+    /**
+     * Put in currentSumofBest the current split time if better than previous one and update the tableview.
+     */
+    private void checkSumOfBest() {
+    	Double oldTime = currentSumOfBest.get(splitTableId);
+    	Double time;
+    	if (splitTableId == 0) {
+    		time = currentSplitTimes.get(splitTableId);
+    	}
+    	else {
+    		time = currentSplitTimes.get(splitTableId)-currentSplitTimes.get(splitTableId-1);
+    	}
+    	if( oldTime == null || oldTime > time ) {
+    		getSplit().sumOfBestProperty().setValue(Chrono.formatTime(time));
+    		currentSumOfBest.set(splitTableId, time);
+    		mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(sumTimeSob(currentSumOfBest)));
+    	}
+    }//checkSumOfBest
+    
+    /**
+     * Put all row for personal best in tableview if total is better than previous one.
+     * @param time
+     */
+    private void checkPersonalBest() {
+    	Double time = currentSplitTimes.get(splitTableId);
+    	if( currentPersonalBest.contains(null) || sumTime(currentPersonalBest) > time ) {
+    		for(int i = 0; i <= splitTableId ; i++) {
+    			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(currentSplitTimes.get(i)));
+    		}
+    		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+    		currentPersonalBest.clear();
+    		currentPersonalBest.addAll(currentSplitTimes);
+    	}
+    }//checkPersonalBest
+    
+    /**
+     * Put time difference between PB and current time with color & signed time.
+     */
+    private void checkDelta() {
+    	return;
+    }//checkDelta
+    
+    /**
+     * Sums time in an array of double.
+     * @param column
+     * @return
+     */
     private double sumTime(ArrayList<Double> column) {
     	double total = 0.0;
     	double previous = 0.0;
@@ -250,4 +313,25 @@ public class CoreOverviewController {
     	}
     	return total;
     }//sumTime
+    
+    /**
+     * Sums independent segments of time in an array of double.
+     * @param column
+     * @return
+     */
+    private double sumTimeSob(ArrayList<Double> column) {
+    	Double total = 0.0;
+    	for(Double time: column) {
+    		if(time != null) {
+    			total += time;
+    		}
+    	}
+    	return total;
+    }//sumTimeSob
+    
+    /*Getter & Setters*/
+    
+    private Split getSplit() {
+    	return mainApp.getTableData().get(splitTableId);
+    }
 }

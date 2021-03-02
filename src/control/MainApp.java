@@ -26,7 +26,6 @@ public class MainApp extends Application {
      * Empty Constructor
      */
 	public MainApp() {
-		//JsonReadWrite reader = new JsonReadWrite("D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json");
 		tableData.add(new Split());
 	}
 

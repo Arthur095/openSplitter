@@ -2,16 +2,16 @@ package control.model;
 
 import java.io.File;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Split {
 
+	/*Attributes*/
 	private StringProperty splitName = new SimpleStringProperty();
 	private ObjectProperty<ImageView> logo = new SimpleObjectProperty<>();
 	private StringProperty time = new SimpleStringProperty();
@@ -30,10 +30,9 @@ public class Split {
 	 */
 	public Split(String split) {
 		this.splitName.setValue(split);
-		ImageView img = new ImageView(new File("./resources/logo/flag.png").toURI().toString());
-		img.setFitHeight(30);
-		img.setFitWidth(30);
-		this.logo.setValue(img);
+		Image img = new Image(new File("./resources/logo/flag.png").toURI().toString(), 30.0, 30.0, false, false);
+		ImageView imgV = new ImageView(img);
+		this.logo.setValue(imgV);
 	}
 	
 	/**
@@ -51,24 +50,22 @@ public class Split {
 		if(logoPath.equals("-")) {
 			logoPath = "./resources/logo/default.png";
 		}
-		ImageView img = new ImageView(new File(logoPath).toURI().toString());
-		img.setFitHeight(30);
-		img.setFitWidth(30);
-		this.logo.setValue(img);
+		Image img = new Image(new File(logoPath).toURI().toString(), 30.0, 30.0, false, false);
+		ImageView imgV = new ImageView(img);
+		this.logo.setValue(imgV);
 	}
 	
+	
+	/*Getters & Setters*/
 	public StringProperty splitNameProperty() {
 		return splitName;
 	}
-	
 	public ObjectProperty<ImageView> logoProperty() {
 		return logo;
 	}
-	
 	public StringProperty timeProperty() {
 		return time;
 	}
-	
 	public StringProperty personalBestProperty() {
 		return personalBest;
 	}
@@ -78,7 +75,9 @@ public class Split {
 	public StringProperty deltaProperty() {
 		return delta;
 	}
-
+	public String getSumOfBest() {
+		return sumOfBest.toString();
+	}
 	
 }
 	

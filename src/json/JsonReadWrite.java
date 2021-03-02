@@ -2,9 +2,7 @@ package json;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonException;
-import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsonable;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import control.model.Chrono;
 import control.model.Split;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +28,7 @@ public class JsonReadWrite {
 		this.jsonPath = jsonPath;
 	}
 	
-	// Extraction des segments pour un jeu choisi par l’utilisateur
+	// Extraction des segments pour un jeu choisi par l’utilisateur pour remplir le tableview.
 	public ObservableList<Split> fromJson (String gameName) {
 		ObservableList<Split> game = FXCollections.observableArrayList();
 		try
@@ -40,10 +40,10 @@ public class JsonReadWrite {
             	String sob = null;
             	String pb = null;
             	if (!(split_features.get("sob").equals("null"))) {
-            		sob = (String) split_features.get("sob");
+            		sob = Chrono.formatTime(Double.parseDouble((String) split_features.get("sob")));
             	}
             	if (!(split_features.get("pb").equals("null"))) {
-            		pb = (String) split_features.get("sob");
+            		pb = Chrono.formatTime(Double.parseDouble((String) split_features.get("pb")));
             	}
             	Split Segment = new Split(split_features.get("name").toString(),split_features.get("logo").toString(), sob, pb);
             	game.add(Segment);
@@ -60,6 +60,36 @@ public class JsonReadWrite {
 		return game;
     }
 	
+	public ArrayList<Double> getGameTimes(String gameName, String row){
+		ArrayList<Double> times = new ArrayList<Double>();
+		try
+		{ 
+            JsonObject runSet = (JsonObject) Jsoner.deserialize(new FileReader(jsonPath));            
+            JsonArray splits = (JsonArray) runSet.get(gameName);
+            for (Object split : splits.toArray()) {
+            	JsonObject split_features = (JsonObject) split;
+            	Double time = null;
+            	if (!(split_features.get(row).equals("null"))) {
+            		times.add(Double.parseDouble((String) split_features.get(row)));
+            		
+            	}
+            	else {
+            		times.add(time);
+            	}
+            }
+            
+		}
+		catch(FileNotFoundException fe)
+        {
+            fe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+		return times;
+	}
+	
 	// Fournit la liste des jeux stockés dans le json
 	public ArrayList<String> gameList() throws IOException, JsonException {
 		ArrayList<String> allGames = new ArrayList<String>();
@@ -75,10 +105,20 @@ public class JsonReadWrite {
 		}
 	
 	
-	// Stocker un json dans un HashMap
-	public static HashMap<String,ArrayList<Split>> toHashMap(String gameName, ArrayList<Split>game) {
+	// Stocker le json dans un HashMap
+	public HashMap<String,ArrayList<Split>> toHashMap() {
 		HashMap<String,ArrayList<Split>> gameData = new HashMap<String,ArrayList<Split>>();
-		gameData.put(gameName, game);
+		try {
+			for(String gameName : gameList()) {
+				ArrayList<Split> game = new ArrayList<Split>();
+				game.addAll(fromJson(gameName));
+				gameData.put(gameName, game);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JsonException e) {
+			e.printStackTrace();
+		}
 		return gameData;
 	}
 	
