@@ -10,9 +10,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import json.JsonReadWrite;
 
@@ -150,11 +152,13 @@ public class CoreOverviewController {
     	else {
     		//If timer is running save current time in current split and go to next one
     		if(splitTableId < mainApp.getTableData().size()-3) {
-    			currentSplitTimes.add(splitTimer.getTimeSeconds().doubleValue());
-	    		getSplit().timeProperty().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+    			Double time = splitTimer.getTimeSeconds().doubleValue();
+    			currentSplitTimes.add(time);
+	    		getSplit().timeProperty().setValue(Chrono.formatTime(time));
 	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
 	    		
 	    		checkSumOfBest();
+	    		checkDelta();
 	    		
 	    		splitTableId += 1;
 	    		splitTable.getSelectionModel().select(splitTableId);
@@ -162,11 +166,13 @@ public class CoreOverviewController {
     		}
     		//If last split is reached stop timer, reset it and go to start.
     		else {
-    			currentSplitTimes.add(splitTimer.getTimeSeconds().doubleValue());
-    			getSplit().timeProperty().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));		
+    			Double time = splitTimer.getTimeSeconds().doubleValue();
+    			currentSplitTimes.add(time);
+    			getSplit().timeProperty().setValue(Chrono.formatTime(time));		
     			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
     			
     			checkSumOfBest();
+    			checkDelta();
     			checkPersonalBest();
     			
     			splitTimer.getTimeline().stop();
@@ -203,11 +209,23 @@ public class CoreOverviewController {
     		splitTable.scrollTo(splitTableId);
     		for(Split split : mainApp.getTableData()) {
     			split.timeProperty().setValue(null);
+    			split.deltaProperty().setValue(null);
+    		}
+    		
     		splitTimer = new Chrono();
-    		splitTimer.getFullTimer().setValue(Chrono.formatTime(splitTimer.getTimeSeconds().doubleValue()));
+    		splitTimer.getFullTimer().setValue(Chrono.formatTime(0.0));
     		currentTimeSeconds.textProperty().unbind();
     		currentTimeSeconds.setText(Chrono.formatTime(0.0));
-    	}
+    		
+        	deltaColumn.setCellFactory((deltaColumn) -> {
+        	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {
+        	    	@Override
+        	        protected void updateItem(String item, boolean empty) {
+        	            super.updateItem(item, empty);
+        	        }//updateItem
+        	    };//tableCell
+        	    return tableCell;
+        	});//setCellFactory
     }//resetSplitTimer
     
     /**
@@ -235,6 +253,7 @@ public class CoreOverviewController {
     		gameBox.getSelectionModel().select(currentGame);
     	}
     	else {
+    		resetSplitTimer();
     		currentGame = gameBox.getSelectionModel().getSelectedItem().toString();
 			mainApp.getTableData().clear();
 			JsonReadWrite reader = new JsonReadWrite(filePath);
@@ -272,13 +291,13 @@ public class CoreOverviewController {
     	if( oldTime == null || oldTime > time ) {
     		getSplit().sumOfBestProperty().setValue(Chrono.formatTime(time));
     		currentSumOfBest.set(splitTableId, time);
-    		mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(sumTimeSob(currentSumOfBest)));
+    		
     	}
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(sumTimeSob(currentSumOfBest)));
     }//checkSumOfBest
     
     /**
      * Put all row for personal best in tableview if total is better than previous one.
-     * @param time
      */
     private void checkPersonalBest() {
     	Double time = currentSplitTimes.get(splitTableId);
@@ -296,7 +315,35 @@ public class CoreOverviewController {
      * Put time difference between PB and current time with color & signed time.
      */
     private void checkDelta() {
-    	return;
+    	if(currentPersonalBest.contains(null)) {
+    		return;
+    	}
+    	if(currentSplitTimes.get(splitTableId) == currentPersonalBest.get(splitTableId)) {
+    		mainApp.getTableData().get(splitTableId).deltaProperty().setValue("+00.000s");
+    		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue("+00.000s");
+    		return;
+    	}
+    	//Per column
+    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTimeDelta(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	//Sum column
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTimeDelta(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	
+    	deltaColumn.setCellFactory((deltaColumn) -> {
+    	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {
+    	    	@Override
+    	        protected void updateItem(String item, boolean empty) {
+    	            super.updateItem(item, empty);
+                    if (item != null) {
+                        this.setTextFill(Color.GREEN);
+                        // Get fancy and change color based on data
+                        if(item.contains("+")) 
+                            this.setTextFill(Color.RED);
+                        setText(item);
+                    }
+    	        }//updateItem
+    	    };//tableCell
+    	    return tableCell;
+    	});//setCellFactory
     }//checkDelta
     
     /**
