@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 
@@ -66,6 +67,36 @@ public class Chrono{
 		date += pattern.format(new Date((long) (delta*1000)));
 		return date;
 	}//formatTimeDelta
+	
+    /**
+     * Sums time in an array of double.
+     * @param column
+     * @return
+     */
+    public static double sumTime(ArrayList<Double> column) {
+    	double total = 0.0;
+    	double previous = 0.0;
+    	for(double time: column) {
+    		total += time - previous;
+    		previous = time;
+    	}
+    	return total;
+    }//sumTime
+    
+    /**
+     * Sums independent segments of time in an array of double.
+     * @param column
+     * @return
+     */
+    public static double sumTimeSob(ArrayList<Double> column) {
+    	Double total = 0.0;
+    	for(Double time: column) {
+    		if(time != null) {
+    			total += time;
+    		}
+    	}
+    	return total;
+    }//sumTimeSob
 	
 	/*Getters & Setters*/
 	

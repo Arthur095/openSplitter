@@ -129,7 +129,11 @@ public class CoreOverviewController {
     	}
     	
     	//If timer does not exist create and start it
-    	if(splitTimer.getTimeline() == null) {  
+    	if(splitTimer.getTimeline() == null) { 
+    		if(!(currentSplitTimes.isEmpty())) {
+    			checkPersonalBest();
+    		}
+    		
     		currentSplitTimes.clear();
     		splitTable.getSelectionModel().select(splitTableId);
     		splitTable.scrollTo(splitTableId);
@@ -155,25 +159,25 @@ public class CoreOverviewController {
     			Double time = splitTimer.getTimeSeconds().doubleValue();
     			currentSplitTimes.add(time);
 	    		getSplit().timeProperty().setValue(Chrono.formatTime(time));
-	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
 	    		
 	    		checkSumOfBest();
 	    		checkDelta();
 	    		
 	    		splitTableId += 1;
 	    		splitTable.getSelectionModel().select(splitTableId);
-	    		splitTable.scrollTo(splitTableId);
+	    		splitTable.scrollTo(splitTableId-1);
     		}
     		//If last split is reached stop timer, reset it and go to start.
     		else {
     			Double time = splitTimer.getTimeSeconds().doubleValue();
     			currentSplitTimes.add(time);
     			getSplit().timeProperty().setValue(Chrono.formatTime(time));		
-    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
     			
     			checkSumOfBest();
     			checkDelta();
-    			checkPersonalBest();
+    			
     			
     			splitTimer.getTimeline().stop();
     			splitTimer = new Chrono();
@@ -203,6 +207,7 @@ public class CoreOverviewController {
     	if(splitTimer.getTimeline() == null) {
     		splitTimer.setTimeline(new Timeline());
     	}
+    		currentSplitTimes.clear();
     		splitTimer.getTimeline().stop();
     		splitTableId = 0;
     		splitTable.getSelectionModel().select(splitTableId);
@@ -293,19 +298,19 @@ public class CoreOverviewController {
     		currentSumOfBest.set(splitTableId, time);
     		
     	}
-    	mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(sumTimeSob(currentSumOfBest)));
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(Chrono.sumTimeSob(currentSumOfBest)));
     }//checkSumOfBest
     
     /**
      * Put all row for personal best in tableview if total is better than previous one.
      */
     private void checkPersonalBest() {
-    	Double time = currentSplitTimes.get(splitTableId);
-    	if( currentPersonalBest.contains(null) || sumTime(currentPersonalBest) > time ) {
-    		for(int i = 0; i <= splitTableId ; i++) {
+    	Double time = currentSplitTimes.get(currentSplitTimes.size()-1);
+    	if( currentPersonalBest.contains(null) || Chrono.sumTime(currentPersonalBest) > time ) {
+    		for(int i = 0; i <= currentSplitTimes.size()-1 ; i++) {
     			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(currentSplitTimes.get(i)));
     		}
-    		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(sumTime(currentSplitTimes)));
+    		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
     		currentPersonalBest.clear();
     		currentPersonalBest.addAll(currentSplitTimes);
     	}
@@ -345,36 +350,6 @@ public class CoreOverviewController {
     	    return tableCell;
     	});//setCellFactory
     }//checkDelta
-    
-    /**
-     * Sums time in an array of double.
-     * @param column
-     * @return
-     */
-    private double sumTime(ArrayList<Double> column) {
-    	double total = 0.0;
-    	double previous = 0.0;
-    	for(double time: column) {
-    		total += time - previous;
-    		previous = time;
-    	}
-    	return total;
-    }//sumTime
-    
-    /**
-     * Sums independent segments of time in an array of double.
-     * @param column
-     * @return
-     */
-    private double sumTimeSob(ArrayList<Double> column) {
-    	Double total = 0.0;
-    	for(Double time: column) {
-    		if(time != null) {
-    			total += time;
-    		}
-    	}
-    	return total;
-    }//sumTimeSob
     
     /*Getter & Setters*/
     
