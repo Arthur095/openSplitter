@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -16,17 +18,25 @@ import javafx.stage.Stage;
 import json.JsonReadWrite;
 
 public class MainApp extends Application {
-
+	
 	/*Attributes*/
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<Split> tableData = FXCollections.observableArrayList();
     
+	private Alert PbAlert = new Alert(AlertType.CONFIRMATION);
+	
     /**
      * Empty Constructor
      */
 	public MainApp() {
+		//Put one empty Split when opening the program to display tableview
 		tableData.add(new Split());
+		//Set Dialog box icon.
+		PbAlert.setHeaderText("You beat your PB ! Do you want to save your time");
+		PbAlert.setContentText("Click ok to save your PB, else click cancel.");
+		Stage stage = (Stage) PbAlert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("file:./resources/logo/default.png"));
 	}
 
 	/**
@@ -35,7 +45,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("openSplitter v1.0");
+        this.primaryStage.setTitle("openSplitter v1.0.0");
 
         initRootLayout();
         showCoreOverview();
@@ -109,6 +119,10 @@ public class MainApp extends Application {
 	 */
     public ObservableList<Split> getTableData() {
 		return tableData;
+	}
+
+	public Alert getPbAlert() {
+		return PbAlert;
 	}
 
 }

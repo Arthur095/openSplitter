@@ -8,18 +8,24 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import json.JsonReadWrite;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.github.cliftonlabs.json_simple.JsonException;
 
@@ -130,9 +136,6 @@ public class CoreOverviewController {
     	
     	//If timer does not exist create and start it
     	if(splitTimer.getTimeline() == null) { 
-    		if(!(currentSplitTimes.isEmpty())) {
-    			checkPersonalBest();
-    		}
     		
     		currentSplitTimes.clear();
     		splitTable.getSelectionModel().select(splitTableId);
@@ -178,8 +181,13 @@ public class CoreOverviewController {
     			checkSumOfBest();
     			checkDelta();
     			
-    			
     			splitTimer.getTimeline().stop();
+    			
+    	    	Double pbtime = currentSplitTimes.get(currentSplitTimes.size()-1);
+    	    	if( currentPersonalBest.contains(null) || currentPersonalBest.get(currentPersonalBest.size()-1) > pbtime ) {
+    	    		checkPbDiag();
+    	    	}
+    	    	
     			splitTimer = new Chrono();
     			splitTableId = 0;
     			splitTable.getSelectionModel().select(mainApp.getTableData().size()-1);
@@ -204,6 +212,7 @@ public class CoreOverviewController {
      */
     @FXML
     private void resetSplitTimer() {
+    	
     	if(splitTimer.getTimeline() == null) {
     		splitTimer.setTimeline(new Timeline());
     	}
@@ -250,7 +259,7 @@ public class CoreOverviewController {
     
     /**
      * Load the game selected in the combobox bar.
-     * @param event
+     * @param game
      */
     @FXML
     private void chooseGame(ActionEvent event) {
@@ -305,16 +314,24 @@ public class CoreOverviewController {
      * Put all row for personal best in tableview if total is better than previous one.
      */
     private void checkPersonalBest() {
-    	Double time = currentSplitTimes.get(currentSplitTimes.size()-1);
-    	if( currentPersonalBest.contains(null) || Chrono.sumTime(currentPersonalBest) > time ) {
-    		for(int i = 0; i <= currentSplitTimes.size()-1 ; i++) {
-    			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(currentSplitTimes.get(i)));
-    		}
-    		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
-    		currentPersonalBest.clear();
-    		currentPersonalBest.addAll(currentSplitTimes);
-    	}
+		for(int i = 0; i <= currentSplitTimes.size()-1; i++) {
+			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(currentSplitTimes.get(i)));
+		}
+		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
+		currentPersonalBest.clear();
+		currentPersonalBest.addAll(currentSplitTimes);
     }//checkPersonalBest
+    
+    /**
+     * Check if PB is ready to be saved even if player press the reset button or change game.
+     */
+    private void checkPbDiag() {
+		Optional<ButtonType> result = mainApp.getPbAlert().showAndWait();
+		if (result.get() == ButtonType.OK){
+		    checkPersonalBest();
+		} 
+		return;
+    }//checkPbDiag
     
     /**
      * Put time difference between PB and current time with color & signed time.
