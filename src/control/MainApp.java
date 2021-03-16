@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 
 import control.model.Split;
@@ -14,6 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import json.JsonReadWrite;
 
@@ -93,6 +97,20 @@ public class MainApp extends Application {
             
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void playAlertSound() {
+        try{
+   
+	    	Media sound = new Media(new File("resources/sound/alert_sound.mp3").toURI().toString());
+	    	if (sound != null){
+		    	MediaPlayer alertSound = new MediaPlayer(sound);
+		    	alertSound.play();
+	    	}
+        }
+        catch(Exception ex){
+        	return;
         }
     }
     

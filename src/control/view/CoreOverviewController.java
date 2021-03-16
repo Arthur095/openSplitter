@@ -32,7 +32,7 @@ import com.github.cliftonlabs.json_simple.JsonException;
 public class CoreOverviewController {
 	
 	/*Attributes*/
-	private String filePath = "D:\\java_workspace\\SpeedrunTimer\\resources\\json\\games.json";
+	private String filePath = ".\\resources\\json\\games.json";
 	private boolean hidden = false;
 	private String currentGame;
 	private Chrono splitTimer = new Chrono();
@@ -185,6 +185,7 @@ public class CoreOverviewController {
     			
     	    	Double pbtime = currentSplitTimes.get(currentSplitTimes.size()-1);
     	    	if( currentPersonalBest.contains(null) || currentPersonalBest.get(currentPersonalBest.size()-1) > pbtime ) {
+    	    		mainApp.playAlertSound();
     	    		checkPbDiag();
     	    	}
     	    	
