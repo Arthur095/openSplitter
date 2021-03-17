@@ -27,7 +27,6 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<Split> tableData = FXCollections.observableArrayList();
-    
 	private Alert PbAlert = new Alert(AlertType.CONFIRMATION);
 	
     /**
@@ -50,7 +49,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("openSplitter v1.0.0");
-
+        
         initRootLayout();
         showCoreOverview();
         

@@ -90,6 +90,9 @@ public class CoreOverviewController {
     	currentTimeSeconds.setText(Chrono.formatTime(0.0));
     	//Initialize game combobox
     	gameBox.getItems().addAll(inputFile.gameList());
+    	//Initialize keybinds.
+    	
+    	
     	
     	// Initialize the person table with the two columns.
         logoColumn.setCellValueFactory(cellData -> cellData.getValue().logoProperty());
@@ -112,7 +115,7 @@ public class CoreOverviewController {
         splitTable.setItems(mainApp.getTableData());
         
         //Selection examples
-        splitTable.getSelectionModel().selectFirst();
+        //splitTable.getSelectionModel().selectFirst();
     }
     
     /*Buttons*/
