@@ -1,12 +1,15 @@
 package control.view;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import control.MainApp;
+import control.model.Split;
 
 
 public class RootLayoutController {
@@ -44,7 +47,13 @@ public class RootLayoutController {
      */
     @FXML
     private void handleSaveCurr() {
-
+    	HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+    	ArrayList<Split> myGame = new ArrayList<Split>(mainApp.getTableData());
+    	myGame.remove(myGame.size()-1);
+    	myGame.remove(myGame.size()-1);
+    	allGames.get(mainApp.getCurrentGame()).clear();
+    	allGames.get(mainApp.getCurrentGame()).addAll(myGame);
+    	mainApp.getInputFile().toJson(allGames);
 	}
 
     /**

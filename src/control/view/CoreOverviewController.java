@@ -32,14 +32,9 @@ import com.github.cliftonlabs.json_simple.JsonException;
 public class CoreOverviewController {
 	
 	/*Attributes*/
-	private String filePath = ".\\resources\\json\\games.json";
 	private boolean hidden = false;
-	private String currentGame;
 	private Chrono splitTimer = new Chrono();
 	private int splitTableId = 0;
-	private ArrayList<Double> currentSplitTimes = new ArrayList<Double>();
-	private ArrayList<Double> currentSumOfBest = new ArrayList<Double>();
-	private ArrayList<Double> currentPersonalBest = new ArrayList<Double>();
 	
 	/*Labels*/
 	@FXML
@@ -84,15 +79,9 @@ public class CoreOverviewController {
      * @throws IOException 
      */
     @FXML
-    private void initialize() throws IOException, JsonException {
-    	JsonReadWrite inputFile = new JsonReadWrite("./resources/json/games.json");
+    private void initialize(){
     	//Initialize timer label
     	currentTimeSeconds.setText(Chrono.formatTime(0.0));
-    	//Initialize game combobox
-    	gameBox.getItems().addAll(inputFile.gameList());
-    	//Initialize keybinds.
-    	
-    	
     	
     	// Initialize the person table with the two columns.
         logoColumn.setCellValueFactory(cellData -> cellData.getValue().logoProperty());
@@ -107,15 +96,19 @@ public class CoreOverviewController {
      * Is called by the main application to give a reference back to itself.
      * 
      * @param mainApp
+     * @throws JsonException 
+     * @throws IOException 
      */
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp) throws IOException, JsonException {
         this.mainApp = mainApp;
-
         // Add observable list data to the table
         splitTable.setItems(mainApp.getTableData());
-        
-        //Selection examples
-        //splitTable.getSelectionModel().selectFirst();
+        //Initialize inputfile 
+        JsonReadWrite reader = new JsonReadWrite(mainApp.getFilePath());
+        this.mainApp.setInputFile(reader);
+    	//Initialize game combobox
+    	gameBox.getItems().addAll(reader.gameList());
+
     }
     
     /*Buttons*/
@@ -126,7 +119,7 @@ public class CoreOverviewController {
     @FXML
     private void startSplitTimer() {
     	
-    	if(currentGame == null) {
+    	if(mainApp.getCurrentGame() == null) {
     		return;
     	}
     	//Binding timer to label
@@ -140,7 +133,7 @@ public class CoreOverviewController {
     	//If timer does not exist create and start it
     	if(splitTimer.getTimeline() == null) { 
     		
-    		currentSplitTimes.clear();
+    		mainApp.getCurrentSplitTimes().clear();
     		splitTable.getSelectionModel().select(splitTableId);
     		splitTable.scrollTo(splitTableId);
             splitTimer.setTimeline(new Timeline(
@@ -163,9 +156,9 @@ public class CoreOverviewController {
     		//If timer is running save current time in current split and go to next one
     		if(splitTableId < mainApp.getTableData().size()-3) {
     			Double time = splitTimer.getTimeSeconds().doubleValue();
-    			currentSplitTimes.add(time);
+    			mainApp.getCurrentSplitTimes().add(time);
 	    		getSplit().timeProperty().setValue(Chrono.formatTime(time));
-	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
+	    		mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(mainApp.getCurrentSplitTimes())));
 	    		
 	    		checkSumOfBest();
 	    		checkDelta();
@@ -177,17 +170,17 @@ public class CoreOverviewController {
     		//If last split is reached stop timer, reset it and go to start.
     		else {
     			Double time = splitTimer.getTimeSeconds().doubleValue();
-    			currentSplitTimes.add(time);
+    			mainApp.getCurrentSplitTimes().add(time);
     			getSplit().timeProperty().setValue(Chrono.formatTime(time));		
-    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
+    			mainApp.getTableData().get(mainApp.getTableData().size()-1).timeProperty().setValue(Chrono.formatTime(Chrono.sumTime(mainApp.getCurrentSplitTimes())));
     			
     			checkSumOfBest();
     			checkDelta();
     			
     			splitTimer.getTimeline().stop();
     			
-    	    	Double pbtime = currentSplitTimes.get(currentSplitTimes.size()-1);
-    	    	if( currentPersonalBest.contains(null) || currentPersonalBest.get(currentPersonalBest.size()-1) > pbtime ) {
+    	    	Double pbtime = mainApp.getCurrentSplitTimes().get(mainApp.getCurrentSplitTimes().size()-1);
+    	    	if( mainApp.getCurrentPersonalBest().contains(null) || mainApp.getCurrentPersonalBest().get(mainApp.getCurrentPersonalBest().size()-1) > pbtime ) {
     	    		mainApp.playAlertSound();
     	    		checkPbDiag();
     	    	}
@@ -220,7 +213,7 @@ public class CoreOverviewController {
     	if(splitTimer.getTimeline() == null) {
     		splitTimer.setTimeline(new Timeline());
     	}
-    		currentSplitTimes.clear();
+    		mainApp.getCurrentSplitTimes().clear();
     		splitTimer.getTimeline().stop();
     		splitTableId = 0;
     		splitTable.getSelectionModel().select(splitTableId);
@@ -268,13 +261,13 @@ public class CoreOverviewController {
     @FXML
     private void chooseGame(ActionEvent event) {
     	if(!(splitTimer.getTimeline() == null)) {
-    		gameBox.getSelectionModel().select(currentGame);
+    		gameBox.getSelectionModel().select(mainApp.getCurrentGame());
     	}
     	else {
     		resetSplitTimer();
-    		currentGame = gameBox.getSelectionModel().getSelectedItem().toString();
+    		mainApp.setCurrentGame(gameBox.getSelectionModel().getSelectedItem().toString());
 			mainApp.getTableData().clear();
-			JsonReadWrite reader = new JsonReadWrite(filePath);
+			JsonReadWrite reader = mainApp.getInputFile();
 			mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
 			
 			//Total column
@@ -282,77 +275,83 @@ public class CoreOverviewController {
 			mainApp.getTableData().add(new Split("Total"));
 			
 			//Current times
-			currentSumOfBest.clear();
-			currentSumOfBest.addAll(reader.getGameTimes(currentGame,"sob"));
-			currentPersonalBest.clear();
-			currentPersonalBest.addAll(reader.getGameTimes(currentGame,"pb"));
-			
-			//Ram usage check for debugging purpose
-			System.gc();
+			mainApp.getCurrentSumOfBest().clear();
+			mainApp.getCurrentSumOfBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"sob"));
+			mainApp.getCurrentPersonalBest().clear();
+			mainApp.getCurrentPersonalBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"pb"));
     	}
     }//chooseGame
     
     /*Methods*/
     
     /**
-     * Put in currentSumofBest the current split time if better than previous one and update the tableview.
+     * Put in mainApp.getCurrentSumOfBest() the current split time if better than previous one and update the tableview.
      */
     private void checkSumOfBest() {
-    	Double oldTime = currentSumOfBest.get(splitTableId);
+    	Double oldTime = mainApp.getCurrentSumOfBest().get(splitTableId);
     	Double time;
     	if (splitTableId == 0) {
-    		time = currentSplitTimes.get(splitTableId);
+    		time = mainApp.getCurrentSplitTimes().get(splitTableId);
     	}
     	else {
-    		time = currentSplitTimes.get(splitTableId)-currentSplitTimes.get(splitTableId-1);
+    		time = mainApp.getCurrentSplitTimes().get(splitTableId)-mainApp.getCurrentSplitTimes().get(splitTableId-1);
     	}
     	if( oldTime == null || oldTime > time ) {
     		getSplit().sumOfBestProperty().setValue(Chrono.formatTime(time));
-    		currentSumOfBest.set(splitTableId, time);
+    		mainApp.getCurrentSumOfBest().set(splitTableId, time);
     		
     	}
-    	mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(Chrono.sumTimeSob(currentSumOfBest)));
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(Chrono.sumTimeSob(mainApp.getCurrentSumOfBest())));
     }//checkSumOfBest
     
     /**
      * Put all row for personal best in tableview if total is better than previous one.
      */
     private void checkPersonalBest() {
-		for(int i = 0; i <= currentSplitTimes.size()-1; i++) {
-			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(currentSplitTimes.get(i)));
+		for(int i = 0; i <= mainApp.getCurrentSplitTimes().size()-1; i++) {
+			mainApp.getTableData().get(i).personalBestProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(i)));
 		}
-		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(currentSplitTimes)));
-		currentPersonalBest.clear();
-		currentPersonalBest.addAll(currentSplitTimes);
+		mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(mainApp.getCurrentSplitTimes())));
+		mainApp.getCurrentPersonalBest().clear();
+		mainApp.getCurrentPersonalBest().addAll(mainApp.getCurrentSplitTimes());
     }//checkPersonalBest
     
     /**
      * Check if PB is ready to be saved even if player press the reset button or change game.
      */
     private void checkPbDiag() {
-		Optional<ButtonType> result = mainApp.getPbAlert().showAndWait();
+		mainApp.getAlert().setHeaderText("You beat your PB ! Do you want to save your time");
+		mainApp.getAlert().setContentText("Click ok to save your PB, else click cancel.");
+		Optional<ButtonType> result = mainApp.getAlert().showAndWait();
 		if (result.get() == ButtonType.OK){
 		    checkPersonalBest();
 		} 
 		return;
     }//checkPbDiag
     
+    /*
+     * Fill the current PB time
+     */
+    private void fillPersonalBest(){
+    	
+    }
+    
     /**
      * Put time difference between PB and current time with color & signed time.
      */
     private void checkDelta() {
-    	if(currentPersonalBest.contains(null)) {
+    	if(mainApp.getCurrentPersonalBest().contains(null)) {
     		return;
     	}
-    	if(currentSplitTimes.get(splitTableId) == currentPersonalBest.get(splitTableId)) {
+    	if(mainApp.getCurrentSplitTimes().get(splitTableId) == mainApp.getCurrentPersonalBest().get(splitTableId)) {
     		mainApp.getTableData().get(splitTableId).deltaProperty().setValue("+00.000s");
     		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue("+00.000s");
     		return;
     	}
     	//Per column
-    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTime(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
     	//Sum column
-    	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTime(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
     	
     	deltaColumn.setCellFactory((deltaColumn) -> {
     	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {

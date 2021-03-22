@@ -7,8 +7,15 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -67,6 +74,16 @@ public class Chrono{
 		date += pattern.format(new Date((long) (delta*1000)));
 		return date;
 	}//formatTimeDelta
+	
+	/**
+	 * Converts hours:minutes:seconds.milliseconds to seconds.milliseconds .
+	 * @param timeString
+	 * @return
+	 */
+	public static String reverseFormatTime(String timeString) {
+		LocalTime localTime = LocalTime.parse(timeString);
+		return String.valueOf(localTime.toSecondOfDay()) + "." + String.valueOf(localTime.getNano()).substring(0,3);
+	}//reverseFormatTime
 	
     /**
      * Sums time in an array of double.

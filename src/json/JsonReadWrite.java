@@ -18,11 +18,8 @@ import javafx.collections.ObservableList;
 
 
 public class JsonReadWrite {
-
-	//private static JsonParser parser = new JsonParser();
+	
 	private String jsonPath;
-	private String jsonTestPath = "D:\\java_workspace\\SpeedrunTimer\\resources\\json\\test.json";
-	private HashMap<String, ArrayList<Split>> gameData = new HashMap<String, ArrayList<Split>>();
 	
 	public JsonReadWrite(String jsonPath) {
 		this.jsonPath = jsonPath;
@@ -131,34 +128,34 @@ public class JsonReadWrite {
 		for (String key : gameData.keySet()) {
 			JsonArray jsonKey = new JsonArray();
 			for (Split val : gameData.get(key)) {
-				JsonObject  jsonVal = new JsonObject();
-				jsonVal.put("logo", val.logoProperty());
-				jsonVal.put("name", val.splitNameProperty());
-				jsonVal.put("sob", String.valueOf(val.sumOfBestProperty()));
-				jsonVal.put("pb", String.valueOf(val.personalBestProperty()));
+				JsonObject  jsonVal = new JsonObject();		
+				try {
+					jsonVal.put("pb", Chrono.reverseFormatTime(val.personalBestProperty().getValueSafe()));
+				}
+				catch(Exception e) {
+					jsonVal.put("pb", "null");
+				}
+				try {
+					jsonVal.put("sob", Chrono.reverseFormatTime(val.sumOfBestProperty().getValueSafe()));
+				}
+				catch(Exception e) {
+					jsonVal.put("sob", "null");
+				}
+				jsonVal.put("name", val.splitNameProperty().getValueSafe());
+				jsonVal.put("logo", val.getLogoPath());
+				
 				jsonKey.add(jsonVal);
 			}
 			jsonGameName.put(key, jsonKey);
 		}
-		System.out.println(jsonGameName);
-
+		
 		// Écriture du json
-		try (FileWriter file = new FileWriter(jsonTestPath)) {
-			file.write(jsonGameName.toJson()); 
-			file.flush();
+		try (FileWriter file = new FileWriter(jsonPath)) {
+			file.write(Jsoner.prettyPrint(Jsoner.serialize(jsonGameName)));
 			}
 		catch (IOException e) {
         e.printStackTrace();
         }
-	}
 
-
-	// Section getter/setter
-	public HashMap<String, ArrayList<Split>> getGameData() {
-		return gameData;
-	}
-
-	public void setGameData(HashMap<String, ArrayList<Split>> gameData) {
-		this.gameData = gameData;
 	}
 }

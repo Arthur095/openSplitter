@@ -1,28 +1,36 @@
 {
-	"Super Mario Odyssey":
-	[
-		{"logo":"-", "name":"chapeaux", "sob":"null", "pb":"null"},
-		{"logo":"-", "name":"cascades", "sob":"null", "pb":"null"},
-		{"logo":"-", "name":"pyramides", "sob":"null", "pb":"null"}
+	"Super Mario Odyssey":[
+		{
+			"pb":"0.121",
+			"sob":"0.153",
+			"name":"chapeaux",
+			"logo":"-"
+		},
+		{
+			"pb":"0.125",
+			"sob":"0.285",
+			"name":"cascades",
+			"logo":"-"
+		},
+		{
+			"pb":"0.950",
+			"sob":"0.527",
+			"name":"pyramides",
+			"logo":"-"
+		}
 	],
-	"Zelda":
-	[
-		{"logo":"-", "name":"prelude", "sob":"null", "pb":"null"},
-		{"logo":"-", "name":"cocorico", "sob":"null", "pb":"null"}
-	]
-		"Pokemon":
-	[
-		{"logo":"-", "name":"Starter", "sob":"null", "pb":"null"},
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
-		{"logo":"-", "name":"Badge terre", "sob":"null", "pb":"null"}
+	"Zelda":[
+		{
+			"pb":"0.270",
+			"sob":"0.270",
+			"name":"prelude",
+			"logo":"-"
+		},
+		{
+			"pb":"0.542",
+			"sob":"0.272",
+			"name":"cocorico",
+			"logo":"-"
+		}
 	]
 }

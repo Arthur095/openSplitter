@@ -1,0 +1,13 @@
+{
+    "Super Mario Odyssey":
+    [
+        {"logo":"-", "name":"chapeaux", "sob":"null", "pb":"null"},
+        {"logo":"-", "name":"cascades", "sob":"null", "pb":"null"},
+        {"logo":"-", "name":"pyramides", "sob":"null", "pb":"null"}
+    ],
+    "Zelda":
+    [
+        {"logo":"-", "name":"prelude", "sob":"null", "pb":"null"},
+        {"logo":"-", "name":"cocorico", "sob":"null", "pb":"null"}
+    ]
+}

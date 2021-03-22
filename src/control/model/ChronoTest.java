@@ -43,4 +43,14 @@ class ChronoTest {
 		assertTrue(time.equals("+01h00m01.000s"));
 	}
 
+	@Test
+	void testReverseFormatTime() {
+		String time = "00:01:12.233";
+		String result = Chrono.reverseFormatTime(time);
+		assertTrue(result.equals("72.233"));
+		
+		time = "02:01:23.933";
+		result = Chrono.reverseFormatTime(time);
+		assertTrue(result.equals("7283.933"));
+	}
 }

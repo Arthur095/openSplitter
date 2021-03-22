@@ -14,6 +14,7 @@ public class Split {
 	/*Attributes*/
 	private StringProperty splitName = new SimpleStringProperty();
 	private ObjectProperty<ImageView> logo = new SimpleObjectProperty<>();
+	private String logoPath;
 	private StringProperty time = new SimpleStringProperty();
 	private StringProperty personalBest = new SimpleStringProperty();
 	private StringProperty sumOfBest = new SimpleStringProperty();
@@ -47,6 +48,7 @@ public class Split {
 		this.splitName.setValue(split);
 		this.personalBest.setValue(personalBest);
 		this.sumOfBest.setValue(sumOfBest);
+		this.logoPath = logoPath;
 		if(logoPath.equals("-")) {
 			logoPath = "./resources/logo/default.png";
 		}
@@ -77,6 +79,9 @@ public class Split {
 	}
 	public String getSumOfBest() {
 		return sumOfBest.toString();
+	}
+	public String getLogoPath() {
+		return logoPath;
 	}
 	
 }
