@@ -30,7 +30,7 @@ public class Chrono{
 	public Chrono(){
 
 	}
-
+	
 	/**
 	 * Format time from seconds to hours, min and seconds.
 	 * @return String
@@ -45,7 +45,7 @@ public class Chrono{
 	 * @param timer
 	 * @return
 	 */
-	public static String formatTimeDelta(double timer, double personalBest) {
+	public static String formatTime(double timer, double personalBest) {
 		SimpleDateFormat pattern;
 		String date;
 		double delta = timer - personalBest;

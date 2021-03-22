@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 class JsonReadWriteTest {
 
-	
 	@Test
 	void method1test() {
 		fail("Not yet implemented");

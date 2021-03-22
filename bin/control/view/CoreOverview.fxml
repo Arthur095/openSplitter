@@ -48,8 +48,8 @@
                         <Button layoutX="135.0" layoutY="18.0" mnemonicParsing="false" onAction="#pauseSplitTimer" prefHeight="61.0" text="Pause" />
                     </buttons>
                   </ButtonBar>
-                  <Label layoutX="10.0" layoutY="136.0" text="v1.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="10.0" />
-                  <Button layoutX="148.0" layoutY="8.0" mnemonicParsing="false" onAction="#startSplitTimer" prefHeight="92.0" prefWidth="152.0" text="Start/Split" AnchorPane.bottomAnchor="60.0" />
+                  <Label layoutX="10.0" layoutY="136.0" text="v1.0.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="10.0" />
+                  <Button layoutX="148.0" layoutY="8.0" mnemonicParsing="false" onAction="#startSplitTimer" prefHeight="90.0" prefWidth="150.0" text="Start/Split" AnchorPane.bottomAnchor="60.0" />
                </children>
             </AnchorPane>
             <TableView fx:id="splitTable" prefHeight="436.0" prefWidth="430.0" style="-fx-selection-bar-non-focused: #008DCF; -fx-selection-bar: #008DCF;" tableMenuButtonVisible="true" GridPane.columnIndex="1">

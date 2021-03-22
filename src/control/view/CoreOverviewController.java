@@ -350,9 +350,9 @@ public class CoreOverviewController {
     		return;
     	}
     	//Per column
-    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTimeDelta(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTime(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
     	//Sum column
-    	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTimeDelta(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
+    	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTime(currentSplitTimes.get(splitTableId), currentPersonalBest.get(splitTableId)));
     	
     	deltaColumn.setCellFactory((deltaColumn) -> {
     	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {
