@@ -1,34 +1,34 @@
 {
 	"Super Mario Odyssey":[
 		{
-			"pb":"0.121",
-			"sob":"0.153",
+			"pb":"0.145",
+			"sob":"0.121",
 			"name":"chapeaux",
 			"logo":"-"
 		},
 		{
-			"pb":"0.125",
-			"sob":"0.285",
+			"pb":"0.301",
+			"sob":"0.125",
 			"name":"cascades",
 			"logo":"-"
 		},
 		{
-			"pb":"0.950",
-			"sob":"0.527",
+			"pb":"0.440",
+			"sob":"0.139",
 			"name":"pyramides",
 			"logo":"-"
 		}
 	],
 	"Zelda":[
 		{
-			"pb":"0.270",
-			"sob":"0.270",
+			"pb":"0.533",
+			"sob":"0.533",
 			"name":"prelude",
 			"logo":"-"
 		},
 		{
-			"pb":"0.542",
-			"sob":"0.272",
+			"pb":"0.900",
+			"sob":"0.367",
 			"name":"cocorico",
 			"logo":"-"
 		}

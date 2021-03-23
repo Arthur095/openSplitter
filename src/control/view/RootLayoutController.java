@@ -39,7 +39,7 @@ public class RootLayoutController {
      */
     @FXML
     private void handleDeleteGame() {
-
+    	
     }
 
     /**
@@ -61,7 +61,8 @@ public class RootLayoutController {
      */
     @FXML
     private void handleGithub() {
-
+    	mainApp.getHostServices().showDocument("https://github.com/Arthur095/openSplitter");
+    	return;
     }
 
 }

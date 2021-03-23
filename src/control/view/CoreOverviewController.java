@@ -270,6 +270,7 @@ public class CoreOverviewController {
 			JsonReadWrite reader = mainApp.getInputFile();
 			mainApp.getTableData().setAll(reader.fromJson(gameBox.getValue().toString()));
 			
+			
 			//Total column
 			mainApp.getTableData().add(new Split());
 			mainApp.getTableData().add(new Split("Total"));
@@ -279,6 +280,8 @@ public class CoreOverviewController {
 			mainApp.getCurrentSumOfBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"sob"));
 			mainApp.getCurrentPersonalBest().clear();
 			mainApp.getCurrentPersonalBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"pb"));
+			mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(Chrono.sumTimeSob(mainApp.getCurrentSumOfBest())));
+			mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(mainApp.getCurrentPersonalBest())));
     	}
     }//chooseGame
     
@@ -344,12 +347,12 @@ public class CoreOverviewController {
     		return;
     	}
     	if(mainApp.getCurrentSplitTimes().get(splitTableId) == mainApp.getCurrentPersonalBest().get(splitTableId)) {
-    		mainApp.getTableData().get(splitTableId).deltaProperty().setValue("+00.000s");
+    		getSplit().deltaProperty().setValue("+00.000s");
     		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue("+00.000s");
     		return;
     	}
     	//Per column
-    	mainApp.getTableData().get(splitTableId).deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
+    	getSplit().deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
     	//Sum column
     	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
     	
@@ -360,7 +363,7 @@ public class CoreOverviewController {
     	            super.updateItem(item, empty);
                     if (item != null) {
                         this.setTextFill(Color.GREEN);
-                        // Get fancy and change color based on data
+                        //Change color based on data
                         if(item.contains("+")) 
                             this.setTextFill(Color.RED);
                         setText(item);
@@ -373,6 +376,7 @@ public class CoreOverviewController {
     
     /*Getter & Setters*/
     
+    //Most used method pattern reduced to improve readability.
     private Split getSplit() {
     	return mainApp.getTableData().get(splitTableId);
     }

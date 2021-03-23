@@ -91,11 +91,13 @@ public class Chrono{
      * @return
      */
     public static double sumTime(ArrayList<Double> column) {
-    	double total = 0.0;
-    	double previous = 0.0;
-    	for(double time: column) {
-    		total += time - previous;
-    		previous = time;
+    	Double total = 0.0;
+    	Double previous = 0.0;
+    	for(Double time: column) {
+    		if(time != null) {
+    			total += time - previous;
+    			previous = time;
+    		}
     	}
     	return total;
     }//sumTime

@@ -42,7 +42,7 @@ public class JsonReadWrite {
             	if (!(split_features.get("pb").equals("null"))) {
             		pb = Chrono.formatTime(Double.parseDouble((String) split_features.get("pb")));
             	}
-            	Split Segment = new Split(split_features.get("name").toString(),split_features.get("logo").toString(), sob, pb);
+            	Split Segment = new Split(split_features.get("name").toString(),split_features.get("logo").toString(), pb, sob);
             	game.add(Segment);
             	}
 		}
