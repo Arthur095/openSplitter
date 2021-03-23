@@ -21,15 +21,15 @@
 	],
 	"Zelda":[
 		{
-			"pb":"0.533",
-			"sob":"0.533",
-			"name":"prelude",
+			"pb":"0.440",
+			"sob":"0.139",
+			"name":"epee",
 			"logo":"-"
 		},
 		{
-			"pb":"0.900",
-			"sob":"0.367",
-			"name":"cocorico",
+			"pb":"0.440",
+			"sob":"0.139",
+			"name":"pyramides",
 			"logo":"-"
 		}
 	]

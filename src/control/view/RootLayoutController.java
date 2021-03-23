@@ -1,13 +1,21 @@
 package control.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
+
+import com.github.cliftonlabs.json_simple.JsonException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import control.MainApp;
 import control.model.Split;
 
@@ -27,10 +35,46 @@ public class RootLayoutController {
     }
 
     /**
-     * Opens a new box to configure new game and its splits.
+     * Opens a new box to add a game.
      */
     @FXML
     private void handleAddGame() {
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("Add game");
+    	dialog.setHeaderText("");
+    	dialog.setContentText("Enter a game name:");
+    	
+		Stage Stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+		Stage.getIcons().add(new Image("file:./resources/logo/default.png"));
+
+    	// Traditional way to get the response value.
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()){
+    	    try {
+				if(mainApp.getInputFile().gameList().contains(result.get())){
+					return;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JsonException e) {
+				e.printStackTrace();
+			}
+    	    HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+    	    allGames.put(result.get(), new ArrayList<Split>());
+			mainApp.getInputFile().toJson(allGames);
+			MainApp mainApp = new MainApp();
+			mainApp.start(this.mainApp.getPrimaryStage());
+    	}
+    	else {
+    		return;
+    	}
+    }
+    
+    /**
+     * Opens a new box to configure new game and its splits.
+     */
+    @FXML
+    private void handleEditGame() {
 
     }
     
@@ -39,7 +83,19 @@ public class RootLayoutController {
      */
     @FXML
     private void handleDeleteGame() {
-    	
+    	if(mainApp.getCurrentGame() != null) {	
+			mainApp.getAlert().setHeaderText("The selected game will be deleted. Are you sure to proceed");
+			mainApp.getAlert().setContentText("Click OK to confirm, else click CANCEL.");
+			Optional<ButtonType> result = mainApp.getAlert().showAndWait();
+			if (result.get() == ButtonType.OK){
+				HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+				allGames.remove(mainApp.getCurrentGame());
+				mainApp.getInputFile().toJson(allGames);
+				MainApp mainApp = new MainApp();
+				mainApp.start(this.mainApp.getPrimaryStage());
+			} 
+			return;
+    	}
     }
 
     /**

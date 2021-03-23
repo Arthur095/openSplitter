@@ -1,6 +1,6 @@
 package control.view;
 
-public class AddGameController {
+public class EditGameController {
 
 	
 	

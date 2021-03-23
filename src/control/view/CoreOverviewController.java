@@ -119,7 +119,7 @@ public class CoreOverviewController {
     @FXML
     private void startSplitTimer() {
     	
-    	if(mainApp.getCurrentGame() == null) {
+    	if(mainApp.getCurrentGame() == null || mainApp.getTableData().size()<3) {
     		return;
     	}
     	//Binding timer to label
@@ -323,8 +323,8 @@ public class CoreOverviewController {
      * Check if PB is ready to be saved even if player press the reset button or change game.
      */
     private void checkPbDiag() {
-		mainApp.getAlert().setHeaderText("You beat your PB ! Do you want to save your time");
-		mainApp.getAlert().setContentText("Click ok to save your PB, else click cancel.");
+		mainApp.getAlert().setHeaderText("You beat your PB ! Do you want to valid your time");
+		mainApp.getAlert().setContentText("Click OK to confirm, else click CANCEL.");
 		Optional<ButtonType> result = mainApp.getAlert().showAndWait();
 		if (result.get() == ButtonType.OK){
 		    checkPersonalBest();
