@@ -332,12 +332,6 @@ public class CoreOverviewController {
 		return;
     }//checkPbDiag
     
-    /*
-     * Fill the current PB time
-     */
-    private void fillPersonalBest(){
-    	
-    }
     
     /**
      * Put time difference between PB and current time with color & signed time.

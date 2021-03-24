@@ -32,12 +32,7 @@
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font></Label>
-                  <Label fx:id="gameName" layoutX="21.0" layoutY="38.0" prefHeight="25.0" prefWidth="46.0" text="Game:">
-                     <font>
-                        <Font name="Arial" size="13.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="gameBox" layoutX="67.0" layoutY="40.0" onAction="#chooseGame" prefHeight="10.0" prefWidth="334.0" AnchorPane.topAnchor="40.0" />
+                  <ComboBox fx:id="gameBox" layoutX="5.0" layoutY="40.0" onAction="#chooseGame" prefHeight="31.0" prefWidth="440.0" AnchorPane.topAnchor="40.0" />
                </children></AnchorPane>
             <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>

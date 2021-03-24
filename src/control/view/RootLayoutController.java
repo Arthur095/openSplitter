@@ -40,8 +40,9 @@ public class RootLayoutController {
     @FXML
     private void handleAddGame() {
     	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Add game");
-    	dialog.setHeaderText("");
+    	dialog.setTitle("Adding a game");
+    	dialog.setHeaderText(null);
+    	dialog.setGraphic(null);
     	dialog.setContentText("Enter a game name:");
     	
 		Stage Stage = (Stage) dialog.getDialogPane().getScene().getWindow();
@@ -75,7 +76,9 @@ public class RootLayoutController {
      */
     @FXML
     private void handleEditGame() {
-
+    	if(mainApp.getCurrentGame() != null) {
+    		mainApp.showEditGameDialog();
+    	}
     }
     
     /**
