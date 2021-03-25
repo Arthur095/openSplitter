@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import control.Config;
+
 
 public class Chrono{
 	
@@ -26,9 +28,9 @@ public class Chrono{
     private DoubleProperty timeSeconds = new SimpleDoubleProperty();
     private StringProperty fullTimer = new SimpleStringProperty();
     private Duration time = Duration.ZERO;
-    private static SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS"); //Alternatively "HH'h'mm'm'ss.SSS's'"
+    private static SimpleDateFormat format = new SimpleDateFormat(Config.FPATTERN);
     static {
-    	format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    	format.setTimeZone(TimeZone.getTimeZone(Config.GMT));
     };
     
     /**
@@ -56,21 +58,21 @@ public class Chrono{
 		SimpleDateFormat pattern;
 		String date;
 		double delta = timer - personalBest;
-		date = "+";
+		date = Config.PLUS;
 		if(delta < 0.0) {
 			delta = personalBest - timer;
-			date = "-";
+			date = Config.DMARK;
 		}
 		if(delta < 60) {
-			pattern = new SimpleDateFormat("ss.SSS's'");	
+			pattern = new SimpleDateFormat(Config.SSPATTERN);	
 		}
 		else if(delta < 3600) {
-			pattern = new SimpleDateFormat("mm'm'ss.SSS's'");
+			pattern = new SimpleDateFormat(Config.SMPATTERN);
 		}
 		else {
-			pattern = new SimpleDateFormat("HH'h'mm'm'ss.SSS's'");
+			pattern = new SimpleDateFormat(Config.SHPATTERN);
 		}
-		pattern.setTimeZone(TimeZone.getTimeZone("GMT"));
+		pattern.setTimeZone(TimeZone.getTimeZone(Config.GMT));
 		date += pattern.format(new Date((long) (delta*1000)));
 		return date;
 	}//formatTimeDelta
@@ -82,7 +84,7 @@ public class Chrono{
 	 */
 	public static String reverseFormatTime(String timeString) {
 		LocalTime localTime = LocalTime.parse(timeString);
-		return String.valueOf(localTime.toSecondOfDay()) + "." + String.valueOf(localTime.getNano()).substring(0,3);
+		return String.valueOf(localTime.toSecondOfDay()) + Config.DOT + String.valueOf(localTime.getNano()).substring(0,3);
 	}//reverseFormatTime
 	
     /**

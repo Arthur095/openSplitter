@@ -22,40 +22,32 @@
 			"pb":"5.113",
 			"sob":"1.296",
 			"name":"Bowser",
-			"logo":"D:\\java_workspace\\SpeedrunTimer\\resources\\logo\\default.png"
+			"logo":".\/resources\/logo\/nomdufichier.extension"
 		}
 	],
 	"The Legend of Zelda : The Wind Waker HD - Any% - Glitchless":[
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"4.363",
+			"sob":"4.363",
 			"name":"MasterSword",
 			"logo":"-"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"14.786",
+			"sob":"10.422",
 			"name":"Ship",
 			"logo":"-"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"15.841",
+			"sob":"1.540",
 			"name":"Triforce",
-			"logo":"-"
-		}
-	],
-	"Zelda":[
-		{
-			"pb":"0.440",
-			"sob":"0.139",
-			"name":"epee",
 			"logo":"-"
 		},
 		{
-			"pb":"0.440",
-			"sob":"0.139",
-			"name":"pyramides",
+			"pb":"16.474",
+			"sob":"0.633",
+			"name":"Worm",
 			"logo":"-"
 		}
 	]

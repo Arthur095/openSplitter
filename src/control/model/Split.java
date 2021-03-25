@@ -2,6 +2,7 @@ package control.model;
 
 import java.io.File;
 
+import control.Config;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,7 +32,7 @@ public class Split {
 	 */
 	public Split(String split) {
 		this.splitName.setValue(split);
-		Image img = new Image(new File("./resources/logo/flag.png").toURI().toString(), 30.0, 30.0, false, false);
+		Image img = new Image(new File(Config.FLAG).toURI().toString(), 30.0, 30.0, false, false);
 		ImageView imgV = new ImageView(img);
 		this.logo.setValue(imgV);
 	}
@@ -62,8 +63,8 @@ public class Split {
 		this.personalBest.setValue(personalBest);
 		this.sumOfBest.setValue(sumOfBest);
 		this.logoPath = logoPath;
-		if(logoPath.equals("-")) {
-			logoPath = "./resources/logo/default.png";
+		if(logoPath.equals(Config.DMARK)) {
+			logoPath = Config.DEFAULT;
 		}
 		Image img = new Image(new File(logoPath).toURI().toString(), 30.0, 30.0, false, false);
 		ImageView imgV = new ImageView(img);

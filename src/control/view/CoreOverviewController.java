@@ -1,6 +1,7 @@
 package control.view; 
 
 import control.model.Chrono;
+import control.Config;
 import control.MainApp;
 import control.model.Split;
 import javafx.animation.KeyFrame;
@@ -22,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import json.JsonReadWrite;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -108,7 +108,7 @@ public class CoreOverviewController {
         this.mainApp.setInputFile(reader);
     	//Initialize game combobox
     	gameBox.getItems().addAll(reader.gameList());
-
+    	System.out.println(mainApp.getPrimaryStage().getScene().getAccelerators().toString());
     }
     
     /*Buttons*/
@@ -125,7 +125,7 @@ public class CoreOverviewController {
     	//Binding timer to label
     	currentTimeSeconds.textProperty().bind(splitTimer.getFullTimer());
     	//If timer exists and is paused resume it
-    	if(splitTimer.getTimeline() != null && splitTimer.getTimeline().getStatus().toString().equals("PAUSED")) {
+    	if(splitTimer.getTimeline() != null && splitTimer.getTimeline().getStatus().toString().equals(Config.PAUSED)) {
     		splitTimer.getTimeline().play();
     		return;
     	}
@@ -273,13 +273,13 @@ public class CoreOverviewController {
 			
 			//Total column
 			mainApp.getTableData().add(new Split());
-			mainApp.getTableData().add(new Split("Total"));
+			mainApp.getTableData().add(new Split(Config.TOTAL));
 			
 			//Current times
 			mainApp.getCurrentSumOfBest().clear();
-			mainApp.getCurrentSumOfBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"sob"));
+			mainApp.getCurrentSumOfBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(), Config.SOB));
 			mainApp.getCurrentPersonalBest().clear();
-			mainApp.getCurrentPersonalBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(),"pb"));
+			mainApp.getCurrentPersonalBest().addAll(reader.getGameTimes(mainApp.getCurrentGame(), Config.PB));
 			mainApp.getTableData().get(mainApp.getTableData().size()-1).sumOfBestProperty().setValue(Chrono.formatTime(Chrono.sumTimeSob(mainApp.getCurrentSumOfBest())));
 			mainApp.getTableData().get(mainApp.getTableData().size()-1).personalBestProperty().setValue(Chrono.formatTime(Chrono.sumTime(mainApp.getCurrentPersonalBest())));
     	}
@@ -323,8 +323,8 @@ public class CoreOverviewController {
      * Check if PB is ready to be saved even if player press the reset button or change game.
      */
     private void checkPbDiag() {
-		mainApp.getAlert().setHeaderText("You beat your PB ! Do you want to valid your time");
-		mainApp.getAlert().setContentText("Click OK to confirm, else click CANCEL.");
+		mainApp.getAlert().setHeaderText(Config.PBHEADER);
+		mainApp.getAlert().setContentText(Config.PBCONTENT);
 		Optional<ButtonType> result = mainApp.getAlert().showAndWait();
 		if (result.get() == ButtonType.OK){
 		    checkPersonalBest();
@@ -341,8 +341,8 @@ public class CoreOverviewController {
     		return;
     	}
     	if(mainApp.getCurrentSplitTimes().get(splitTableId) == mainApp.getCurrentPersonalBest().get(splitTableId)) {
-    		getSplit().deltaProperty().setValue("+00.000s");
-    		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue("+00.000s");
+    		getSplit().deltaProperty().setValue(Config.ZERODELTA);
+    		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Config.ZERODELTA);
     		return;
     	}
     	//Per column
@@ -358,7 +358,7 @@ public class CoreOverviewController {
                     if (item != null) {
                         this.setTextFill(Color.GREEN);
                         //Change color based on data
-                        if(item.contains("+")) 
+                        if(item.contains(Config.PLUS)) 
                             this.setTextFill(Color.RED);
                         setText(item);
                     }

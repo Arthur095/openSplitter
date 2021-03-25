@@ -10,7 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import control.Config;
 import control.model.Chrono;
 import control.model.Split;
 import javafx.collections.FXCollections;
@@ -36,13 +38,13 @@ public class JsonReadWrite {
             	JsonObject split_features = (JsonObject) split;
             	String sob = null;
             	String pb = null;
-            	if (!(split_features.get("sob").equals("null"))) {
-            		sob = Chrono.formatTime(Double.parseDouble((String) split_features.get("sob")));
+            	if (!(split_features.get(Config.SOB).equals(Config.NULL))) {
+            		sob = Chrono.formatTime(Double.parseDouble((String) split_features.get(Config.SOB)));
             	}
-            	if (!(split_features.get("pb").equals("null"))) {
-            		pb = Chrono.formatTime(Double.parseDouble((String) split_features.get("pb")));
+            	if (!(split_features.get(Config.PB).equals(Config.NULL))) {
+            		pb = Chrono.formatTime(Double.parseDouble((String) split_features.get(Config.PB)));
             	}
-            	Split Segment = new Split(split_features.get("name").toString(),split_features.get("logo").toString(), pb, sob);
+            	Split Segment = new Split(split_features.get(Config.NAME).toString(),split_features.get(Config.LOGO).toString(), pb, sob);
             	game.add(Segment);
             	}
 		}
@@ -66,7 +68,7 @@ public class JsonReadWrite {
             for (Object split : splits.toArray()) {
             	JsonObject split_features = (JsonObject) split;
             	Double time = null;
-            	if (!(split_features.get(row).equals("null"))) {
+            	if (!(split_features.get(row).equals(Config.NULL))) {
             		times.add(Double.parseDouble((String) split_features.get(row)));
             		
             	}
@@ -122,27 +124,30 @@ public class JsonReadWrite {
 
 	// Écrire un nouveau jeu avec ses segments dans le json
 	@SuppressWarnings("unchecked")
-	public void toJson(HashMap<String, ArrayList<Split>> gameData) {
+	public void toJson(Map<String, ArrayList<Split>> gameData) {
 		
 		JsonObject jsonGameName = new JsonObject();
 		for (String key : gameData.keySet()) {
+			//System.out.println(key);
 			JsonArray jsonKey = new JsonArray();
 			for (Split val : gameData.get(key)) {
-				JsonObject  jsonVal = new JsonObject();		
+				JsonObject  jsonVal = new JsonObject();	
+				
 				try {
-					jsonVal.put("pb", Chrono.reverseFormatTime(val.personalBestProperty().getValueSafe()));
+					jsonVal.put(Config.PB, Chrono.reverseFormatTime(val.personalBestProperty().getValueSafe()));
 				}
 				catch(Exception e) {
-					jsonVal.put("pb", "null");
+					jsonVal.put(Config.PB, Config.NULL);
 				}
 				try {
-					jsonVal.put("sob", Chrono.reverseFormatTime(val.sumOfBestProperty().getValueSafe()));
+					jsonVal.put(Config.SOB, Chrono.reverseFormatTime(val.sumOfBestProperty().getValueSafe()));
 				}
 				catch(Exception e) {
-					jsonVal.put("sob", "null");
+					jsonVal.put(Config.SOB, Config.NULL);
 				}
-				jsonVal.put("name", val.splitNameProperty().getValueSafe());
-				jsonVal.put("logo", val.getLogoPath());
+				
+				jsonVal.put(Config.NAME, val.splitNameProperty().getValueSafe());
+				jsonVal.put(Config.LOGO, val.getLogoPath());
 				
 				jsonKey.add(jsonVal);
 			}

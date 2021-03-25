@@ -41,7 +41,7 @@ public class MainApp extends Application {
 	
 	private JsonReadWrite inputFile;
 	private String currentGame;
-	private String filePath = "./resources/json/games.json";
+	private String filePath = Config.FILEPATH;
     
 	/**
      * Empty Constructor
@@ -51,7 +51,7 @@ public class MainApp extends Application {
 		tableData.add(new Split());
 		//Set Dialog box icon.
 		Stage alertStage = (Stage) Alert.getDialogPane().getScene().getWindow();
-		alertStage.getIcons().add(new Image("file:./resources/logo/default.png"));
+		alertStage.getIcons().add(new Image(Config.DEFAULT));
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("openSplitter v1.0.0");
+        this.primaryStage.setTitle(Config.APPTITLE);
         
         initRootLayout();
         
@@ -72,7 +72,7 @@ public class MainApp extends Application {
         
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
         this.primaryStage.setMinWidth(this.primaryStage.getWidth());
-        this.primaryStage.getIcons().add(new Image("file:./resources/logo/default.png"));
+        this.primaryStage.getIcons().add(new Image(Config.DEFAULT));
     }
     
     /**
@@ -82,7 +82,7 @@ public class MainApp extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource(Config.ROOTLAYOUT));
             rootLayout = (BorderPane) loader.load();
             
             //Show the scene containing the root layout.
@@ -107,7 +107,7 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/CoreOverview.fxml"));
+            loader.setLocation(MainApp.class.getResource(Config.COREOVERVIEW));
             AnchorPane personOverview = (AnchorPane) loader.load();
             
             // Set person overview into the center of root layout.
@@ -126,12 +126,12 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/EditGameDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource(Config.EDITGAMEDIALOG));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit current game splits");
+            dialogStage.setTitle(Config.EDTITLE);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -144,7 +144,7 @@ public class MainApp extends Application {
             controller.setGameSplits(splits);
             controller.setCombobox();
             dialogStage.setResizable(false);
-            dialogStage.getIcons().add(new Image("file:./resources/logo/default.png"));
+            dialogStage.getIcons().add(new Image(Config.DEFAULT));
             dialogStage.showAndWait();
             return controller.getGameSplits();
         } catch (IOException e) {
@@ -156,7 +156,7 @@ public class MainApp extends Application {
     public void playAlertSound() {
         try{
    
-	    	Media sound = new Media(new File("resources/sound/alert_sound.mp3").toURI().toString());
+	    	Media sound = new Media(new File(Config.SOUND).toURI().toString());
 	    	if (sound != null){
 		    	MediaPlayer alertSound = new MediaPlayer(sound);
 		    	alertSound.play();

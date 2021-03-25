@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.github.cliftonlabs.json_simple.JsonException;
 
@@ -17,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import control.Config;
 import control.MainApp;
 import control.model.Split;
 
@@ -41,13 +44,13 @@ public class RootLayoutController {
     @FXML
     private void handleAddGame() {
     	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Adding a game");
+    	dialog.setTitle(Config.ADDTITLE);
     	dialog.setHeaderText(null);
     	dialog.setGraphic(null);
-    	dialog.setContentText("Enter a game name:");
+    	dialog.setContentText(Config.ADDCONTENT);
     	
 		Stage Stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-		Stage.getIcons().add(new Image("file:./resources/logo/default.png"));
+		Stage.getIcons().add(new Image(Config.ICON));
 
     	// Traditional way to get the response value.
     	Optional<String> result = dialog.showAndWait();
@@ -61,7 +64,7 @@ public class RootLayoutController {
 			} catch (JsonException e) {
 				e.printStackTrace();
 			}
-    	    HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+    	    Map<String, ArrayList<Split>> allGames = new TreeMap<String, ArrayList<Split>>(mainApp.getInputFile().toHashMap());
     	    allGames.put(result.get(), new ArrayList<Split>());
 			mainApp.getInputFile().toJson(allGames);
 			MainApp mainApp = new MainApp();
@@ -96,9 +99,10 @@ public class RootLayoutController {
      */
     @FXML
     private void handleDeleteGame() {
-    	if(mainApp.getCurrentGame() != null) {	
-			mainApp.getAlert().setHeaderText("The selected game will be deleted. Are you sure to proceed");
-			mainApp.getAlert().setContentText("Click OK to confirm, else click CANCEL.");
+    	if(mainApp.getCurrentGame() != null) {
+    		mainApp.getAlert().setTitle(Config.DELTITLE);
+			mainApp.getAlert().setHeaderText(Config.DELHEADER);
+			mainApp.getAlert().setContentText(Config.DELCONTENT);
 			Optional<ButtonType> result = mainApp.getAlert().showAndWait();
 			if (result.get() == ButtonType.OK){
 				HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
@@ -130,7 +134,7 @@ public class RootLayoutController {
      */
     @FXML
     private void handleGithub() {
-    	mainApp.getHostServices().showDocument("https://github.com/Arthur095/openSplitter");
+    	mainApp.getHostServices().showDocument(Config.GITHUB);
     	return;
     }
 
