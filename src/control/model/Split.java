@@ -37,6 +37,19 @@ public class Split {
 	}
 	
 	/**
+	 * Split name and logopath constructor.
+	 * @param split
+	 * @param logoPath
+	 */
+	public Split(String split, String logoPath) {
+		this.logoPath = logoPath;
+		this.splitName.setValue(split);
+		Image img = new Image(new File(logoPath).toURI().toString(), 30.0, 30.0, false, false);
+		ImageView imgV = new ImageView(img);
+		this.logo.setValue(imgV);
+	}
+	
+	/**
 	 * Full constructor
 	 * @param split
 	 * @param logoPath
@@ -82,6 +95,9 @@ public class Split {
 	}
 	public String getLogoPath() {
 		return logoPath;
+	}
+	public String splitName() {
+		return splitName.getValueSafe();
 	}
 	
 }

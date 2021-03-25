@@ -19,17 +19,17 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="203.0" layoutY="377.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="61.0" text="Finish" />
-      <ComboBox layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="329.0" />
-      <ComboBox layoutX="26.0" layoutY="85.0" prefHeight="25.0" prefWidth="329.0" />
+      <Button layoutX="203.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleFinish" prefHeight="35.0" prefWidth="61.0" text="Finish" />
+      <ComboBox fx:id="deleteBox" layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="329.0" />
+      <ComboBox fx:id="addBox" layoutX="26.0" layoutY="85.0" prefHeight="25.0" prefWidth="329.0" />
       <Label layoutX="26.0" layoutY="63.0" prefHeight="25.0" prefWidth="39.0" text="After">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="26.0" layoutY="349.0" mnemonicParsing="false" text="Delete" />
-      <TextField layoutX="26.0" layoutY="153.0" />
-      <TextField layoutX="206.0" layoutY="153.0" />
+      <Button layoutX="26.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
+      <TextField fx:id="nameField" layoutX="26.0" layoutY="153.0" />
+      <TextField fx:id="logoField" layoutX="206.0" layoutY="153.0" />
       <Label layoutX="26.0" layoutY="136.0" prefHeight="17.0" prefWidth="52.0" text="Name">
          <font>
             <Font size="14.0" />
@@ -40,8 +40,8 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="26.0" layoutY="200.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="206.0" layoutY="178.0" mnemonicParsing="false" text="Browse" />
-      <Button layoutX="281.0" layoutY="377.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="61.0" text="Cancel" />
+      <Button layoutX="26.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleAdd" text="Add" />
+      <Button layoutX="323.0" layoutY="153.0" mnemonicParsing="false" onAction="#handleBrowse" prefHeight="25.0" prefWidth="32.0" text="..." />
+      <Button layoutX="281.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="35.0" prefWidth="61.0" text="Cancel" />
    </children>
 </AnchorPane>

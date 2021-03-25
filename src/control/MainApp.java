@@ -131,7 +131,7 @@ public class MainApp extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Edit current game splits");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -140,11 +140,14 @@ public class MainApp extends Application {
             // Set the stage into the controller.
             EditGameController controller = loader.getController();
             controller.setDialogStage(dialogStage);
+            ArrayList<Split> splits = new ArrayList<Split>(inputFile.fromJson(currentGame));
+            controller.setGame(splits);
+            controller.setCombobox();
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image("file:./resources/logo/default.png"));
             dialogStage.showAndWait();
-
-            return controller.isOkClicked();
+            
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
