@@ -122,7 +122,7 @@ public class MainApp extends Application {
         }
     }
     
-    public boolean showEditGameDialog() {
+    public ArrayList<Split> showEditGameDialog() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -141,16 +141,15 @@ public class MainApp extends Application {
             EditGameController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             ArrayList<Split> splits = new ArrayList<Split>(inputFile.fromJson(currentGame));
-            controller.setGame(splits);
+            controller.setGameSplits(splits);
             controller.setCombobox();
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image("file:./resources/logo/default.png"));
             dialogStage.showAndWait();
-            
-            return true;
+            return controller.getGameSplits();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
     

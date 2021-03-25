@@ -78,7 +78,16 @@ public class RootLayoutController {
     @FXML
     private void handleEditGame() {
     	if(mainApp.getCurrentGame() != null) {
-    		mainApp.showEditGameDialog();
+    		ArrayList<Split> editedGame = mainApp.showEditGameDialog();
+    		if(editedGame == null) {
+    			return;
+    		}
+			HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+			allGames.get(mainApp.getCurrentGame()).clear();
+			allGames.get(mainApp.getCurrentGame()).addAll(editedGame);
+			mainApp.getInputFile().toJson(allGames);
+			MainApp mainApp = new MainApp();
+			mainApp.start(this.mainApp.getPrimaryStage());
     	}
     }
     

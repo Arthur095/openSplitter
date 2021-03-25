@@ -92,6 +92,7 @@ public class EditGameController {
     public void handleBrowse(){
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Choose split's logo");
+    	fileChooser.setInitialDirectory(new File("./resources/logo"));
     	File file = fileChooser.showOpenDialog(dialogStage);
     	if(file != null) {
     		logoField.setText(file.getAbsolutePath().toString());
@@ -100,11 +101,12 @@ public class EditGameController {
     
     @FXML
     public void handleFinish(){
-    	
+    	dialogStage.close();
     }
     
     @FXML
     public void handleCancel(){
+    	gameSplits = null;
     	dialogStage.close();
     }
 	
@@ -117,9 +119,14 @@ public class EditGameController {
         this.dialogStage = dialogStage;
     }
     
-    public void setGame(ArrayList<Split> gameSplits) {
+	public ArrayList<Split> getGameSplits() {
+		return gameSplits;
+	}
+    public void setGameSplits(ArrayList<Split> gameSplits) {
     	this.gameSplits = gameSplits;
     }
+
+
 	
 	
 }
