@@ -7,9 +7,14 @@ public class Config {
 	public static String ROOTLAYOUT = "view/RootLayout.fxml";
 	public static String COREOVERVIEW = "view/CoreOverview.fxml";
 	public static String EDITGAMEDIALOG = "view/EditGameDialog.fxml";
-	public static String APPTITLE = "openSplitter v1.0.0";
+	public static String EDITKEYBINDSDIALOG = "view/EditKeybindsDialog.fxml";
+	public static String APPTITLE = "openSplitter";
 	public static String SOUND = "resources/sound/alert_sound.mp3";
 	public static String EDTITLE = "Edit current game splits";
+	public static String DEFAULTURI = "file:./resources/logo/default.png";
+	public static String STYLESHEET = "view/Style.css";
+	public static String STYLE = "myDialog";
+	
 	
 	//CoreOverviewController
 	public static String EMPTY = "";
@@ -31,6 +36,9 @@ public class Config {
 	public static String DELTITLE = "Deleting selected game";
 	public static String DELCONTENT = "Click OK to confirm, else click CANCEL.";
 	public static String ICON = "file:./resources/logo/default.png";
+	public static String PSTYLESHEET = "Style.css";
+	public static String KEYTITLE = "Changing keybinds";
+	
 	
 	//JSonReadWrite
 	public static String SOB = "sob";

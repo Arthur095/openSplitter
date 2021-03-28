@@ -108,7 +108,6 @@ public class CoreOverviewController {
         this.mainApp.setInputFile(reader);
     	//Initialize game combobox
     	gameBox.getItems().addAll(reader.gameList());
-    	System.out.println(mainApp.getPrimaryStage().getScene().getAccelerators().toString());
     }
     
     /*Buttons*/

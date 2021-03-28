@@ -9,6 +9,7 @@ import com.github.cliftonlabs.json_simple.JsonException;
 import control.model.Split;
 import control.view.CoreOverviewController;
 import control.view.EditGameController;
+import control.view.EditKeybindsController;
 import control.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -51,7 +53,10 @@ public class MainApp extends Application {
 		tableData.add(new Split());
 		//Set Dialog box icon.
 		Stage alertStage = (Stage) Alert.getDialogPane().getScene().getWindow();
-		alertStage.getIcons().add(new Image(Config.DEFAULT));
+		alertStage.getIcons().add(new Image(Config.DEFAULTURI));
+		DialogPane dialogPane = Alert.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource(Config.STYLESHEET).toExternalForm());
+		dialogPane.getStyleClass().add(Config.STYLE);
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class MainApp extends Application {
         
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
         this.primaryStage.setMinWidth(this.primaryStage.getWidth());
-        this.primaryStage.getIcons().add(new Image(Config.DEFAULT));
+        this.primaryStage.getIcons().add(new Image(Config.DEFAULTURI));
     }
     
     /**
@@ -144,12 +149,40 @@ public class MainApp extends Application {
             controller.setGameSplits(splits);
             controller.setCombobox();
             dialogStage.setResizable(false);
-            dialogStage.getIcons().add(new Image(Config.DEFAULT));
+            dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
             dialogStage.showAndWait();
             return controller.getGameSplits();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public void showEditKeybindsDialog() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource(Config.EDITKEYBINDSDIALOG));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(Config.KEYTITLE);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the stage into the controller.
+            EditKeybindsController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.setResizable(false);
+            dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
+            dialogStage.showAndWait();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
     }
     

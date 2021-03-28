@@ -5,13 +5,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="1080.0" maxWidth="450.0" minHeight="720.0" minWidth="450.0" prefHeight="720.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.RootLayoutController">
+<BorderPane maxHeight="1080.0" maxWidth="450.0" minHeight="720.0" minWidth="450.0" prefHeight="720.0" prefWidth="450.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.RootLayoutController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar style="-fx-background-color: #323435; -fx-text-fill: white;" styleClass="menu" stylesheets="@Style.css" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleSaveCurr" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleKeybinds" text="Keybinds" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

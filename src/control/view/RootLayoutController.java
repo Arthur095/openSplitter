@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
@@ -44,6 +45,9 @@ public class RootLayoutController {
     @FXML
     private void handleAddGame() {
     	TextInputDialog dialog = new TextInputDialog();
+		DialogPane dialogPane = dialog.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource(Config.PSTYLESHEET).toExternalForm());
+		dialogPane.getStyleClass().add(Config.STYLE);
     	dialog.setTitle(Config.ADDTITLE);
     	dialog.setHeaderText(null);
     	dialog.setGraphic(null);
@@ -128,6 +132,14 @@ public class RootLayoutController {
     	allGames.get(mainApp.getCurrentGame()).addAll(myGame);
     	mainApp.getInputFile().toJson(allGames);
 	}
+    
+    /**
+     * Opens the keybinds dialog box.
+     */
+    @FXML
+    private void handleKeybinds() {
+		mainApp.showEditKeybindsDialog();
+    }
 
     /**
      * Opens the project Guthub page in default web browser.

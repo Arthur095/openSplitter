@@ -7,35 +7,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="430.0" maxWidth="380.0" minHeight="430.0" minWidth="380.0" prefHeight="430.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.EditGameController">
+<AnchorPane maxHeight="430.0" maxWidth="380.0" minHeight="430.0" minWidth="380.0" prefHeight="430.0" prefWidth="380.0" style="-fx-background-color: #323435;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.EditGameController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="49.0" prefWidth="162.0" text="Add a split" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="49.0" prefWidth="162.0" style="-fx-text-fill: white;" text="Add a split" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="234.0" prefHeight="49.0" prefWidth="162.0" text="Delete a split">
+      <Label layoutX="14.0" layoutY="234.0" prefHeight="49.0" prefWidth="162.0" style="-fx-text-fill: white;" text="Delete a split">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <Button layoutX="203.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleFinish" prefHeight="35.0" prefWidth="61.0" text="Finish" />
-      <ComboBox fx:id="deleteBox" layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="329.0" />
-      <ComboBox fx:id="addBox" layoutX="26.0" layoutY="85.0" prefHeight="25.0" prefWidth="329.0" />
-      <Label layoutX="26.0" layoutY="63.0" prefHeight="25.0" prefWidth="39.0" text="After">
+      <ComboBox fx:id="deleteBox" layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="329.0" style="-fx-background-color: #868687;" stylesheets="@Style.css" />
+      <ComboBox fx:id="addBox" layoutX="26.0" layoutY="85.0" prefHeight="25.0" prefWidth="329.0" style="-fx-background-color: #868687;" />
+      <Label layoutX="26.0" layoutY="63.0" prefHeight="25.0" prefWidth="39.0" style="-fx-text-fill: white;" text="After">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Button layoutX="26.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
-      <TextField fx:id="nameField" layoutX="26.0" layoutY="153.0" />
-      <TextField fx:id="logoField" layoutX="206.0" layoutY="153.0" prefHeight="25.0" prefWidth="118.0" />
-      <Label layoutX="26.0" layoutY="136.0" prefHeight="17.0" prefWidth="52.0" text="Name">
+      <TextField fx:id="nameField" layoutX="26.0" layoutY="153.0" style="-fx-background-color: #868687; -fx-text-fill: white;" />
+      <TextField fx:id="logoField" layoutX="206.0" layoutY="153.0" prefHeight="25.0" prefWidth="118.0" style="-fx-background-color: #868687; -fx-text-fill: white;" />
+      <Label layoutX="26.0" layoutY="136.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Name">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="206.0" layoutY="134.0" text="Logo">
+      <Label layoutX="206.0" layoutY="134.0" style="-fx-text-fill: white;" text="Logo">
          <font>
             <Font size="14.0" />
          </font>

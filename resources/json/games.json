@@ -1,188 +1,174 @@
 {
-	"Super Mario Odyssey":[
+	"Super Mario Odyssey - Any%":[
 		{
-			"pb":"0.346",
-			"sob":"0.121",
+			"pb":"null",
+			"sob":"null",
 			"name":"Cap",
-			"logo":"../logo/smo/smo_00.png"
+			"logo":".\/resources\/logo\/smo\/smo_00.png"
 		},
 		{
-			"pb":"0.634",
-			"sob":"0.125",
+			"pb":"null",
+			"sob":"null",
 			"name":"Cascade",
-			"logo":"../logo/smo/smo_01.png"
+			"logo":".\/resources\/logo\/smo\/smo_01.png"
 		},
 		{
-			"pb":"3.817",
-			"sob":"0.139",
+			"pb":"null",
+			"sob":"null",
 			"name":"Sand",
-			"logo":"../logo/smo/smo_02.png"
+			"logo":".\/resources\/logo\/smo\/smo_02.png"
 		},
 		{
-			"pb":"5.113",
-			"sob":"1.296",
+			"pb":"null",
+			"sob":"null",
 			"name":"Lake",
-			"logo":"../logo/smo/smo_03.jpg"
-		}
+			"logo":".\/resources\/logo\/smo\/smo_03.jpg"
+		},
 		{
-			"pb":"0.634",
-			"sob":"0.125",
+			"pb":"null",
+			"sob":"null",
 			"name":"Wooded",
-			"logo":"../logo/smo/smo_04.jpeg"
+			"logo":".\/resources\/logo\/smo\/smo_04.jpeg"
 		},
 		{
-			"pb":"3.817",
-			"sob":"0.139",
+			"pb":"null",
+			"sob":"null",
 			"name":"Cloud",
-			"logo":"../logo/smo/smo_05.jpg"
+			"logo":".\/resources\/logo\/smo\/smo_05.jpg"
 		},
 		{
-			"pb":"5.113",
-			"sob":"1.296",
+			"pb":"null",
+			"sob":"null",
 			"name":"Lost",
-			"logo":"../logo/smo/smo_06.png"
-		}
+			"logo":".\/resources\/logo\/smo\/smo_06.png"
+		},
 		{
-			"pb":"0.346",
-			"sob":"0.121",
+			"pb":"null",
+			"sob":"null",
 			"name":"Metro(Night)",
-			"logo":"../logo/smo/smo_07.jpeg"
+			"logo":".\/resources\/logo\/smo\/smo_07.jpeg"
 		},
 		{
-			"pb":"0.634",
-			"sob":"0.125",
+			"pb":"null",
+			"sob":"null",
 			"name":"Metro(Day)",
-			"logo":"../logo/smo/smo_08.jpeg"
+			"logo":".\/resources\/logo\/smo\/smo_08.jpeg"
 		},
 		{
-			"pb":"3.817",
-			"sob":"0.139",
+			"pb":"null",
+			"sob":"null",
 			"name":"Snow",
-			"logo":"../logo/smo/smo_09.jpg"
+			"logo":".\/resources\/logo\/smo\/smo_09.jpg"
 		},
 		{
-			"pb":"5.113",
-			"sob":"1.296",
+			"pb":"null",
+			"sob":"null",
 			"name":"Seaside",
-			"logo":"../logo/smo/smo_10.jepg"
-		}
+			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
+		},
 		{
-			"pb":"0.634",
-			"sob":"0.125",
+			"pb":"null",
+			"sob":"null",
 			"name":"Luncheon",
-			"logo":"../logo/smo/smo_10.jpg"
+			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
 		},
 		{
-			"pb":"3.817",
-			"sob":"0.139",
+			"pb":"null",
+			"sob":"null",
 			"name":"Ruined",
-			"logo":"../logo/smo/smo_11.jpg"
+			"logo":".\/resources\/logo\/smo\/smo_11.jpg"
 		},
 		{
-			"pb":"5.113",
-			"sob":"1.296",
+			"pb":"null",
+			"sob":"null",
 			"name":"Bowsers",
-			"logo":"../logo/smo/smo_12.jpg"
-		}
+			"logo":".\/resources\/logo\/smo\/smo_12.jpg"
+		},
 		{
-			"pb":"5.113",
-			"sob":"1.296",
+			"pb":"null",
+			"sob":"null",
 			"name":"Moon",
-			"logo":"../logo/smo/smo_13.png"
+			"logo":".\/resources\/logo\/smo\/smo_13.png"
 		}
 	],
-	"The Legend of Zelda : The Wind Waker HD - Any% - Glitchless":[
+	"The Legend of Zelda : The Wind Waker HD - Any%":[
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Wind Waker",
-			"logo":"../logo/ww/ww_00.png"
+			"logo":".\/resources\/logo\/ww\/ww_00.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Bottle",
-			"logo":"../logo/ww/ww_01.png"
+			"logo":".\/resources\/logo\/ww\/ww_01.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Grapple",
-			"logo":"../logo/ww/ww_02.png"
-		}
+			"logo":".\/resources\/logo\/ww\/ww_02.png"
+		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Quiver",
-			"logo":"../logo/ww/ww_03.png"
+			"logo":".\/resources\/logo\/ww\/ww_03.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"FF1",
-			"logo":"../logo/ww/ww_04.png"
+			"logo":".\/resources\/logo\/ww\/ww_04.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Leaf",
-			"logo":"../logo/ww/ww_05.png"
-		}
+			"logo":".\/resources\/logo\/ww\/ww_05.png"
+		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"FF2",
-			"logo":"../logo/ww/ww_06.png"
+			"logo":".\/resources\/logo\/ww\/ww_06.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"EMS",
-			"logo":"../logo/ww/ww_07.png"
+			"logo":".\/resources\/logo\/ww\/ww_07.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Barrier Skip",
-			"logo":"../logo/ww/ww_08.png"
-		}
+			"logo":".\/resources\/logo\/ww\/ww_08.png"
+		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Light Arrows",
-			"logo":"../logo/ww/ww_09.png"
+			"logo":".\/resources\/logo\/ww\/ww_09.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Puppet Ganon",
-			"logo":"../logo/ww/ww_10.png"
+			"logo":".\/resources\/logo\/ww\/ww_10.png"
 		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Spicy Hover",
-			"logo":"../logo/ww/ww_11.png"
-		}
+			"logo":".\/resources\/logo\/ww\/ww_11.png"
+		},
 		{
 			"pb":"null",
 			"sob":"null",
 			"name":"Ganondorf",
-			"logo":"../logo/ww/ww_12.png"
-		}
-	],
-	"Zelda":[
-		{
-			"pb":"0.440",
-			"sob":"0.139",
-			"name":"epee",
-			"logo":"-"
-		},
-		{
-			"pb":"0.440",
-			"sob":"0.139",
-			"name":"pyramides",
-			"logo":"-"
+			"logo":".\/resources\/logo\/ww\/ww_12.png"
 		}
 	]
 }
