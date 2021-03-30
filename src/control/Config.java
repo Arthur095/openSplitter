@@ -1,5 +1,9 @@
 package control;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Config {
 	
 	//MainApp
@@ -60,4 +64,13 @@ public class Config {
 	public static String SMPATTERN = "mm'm'ss.SSS's'";
 	public static String SHPATTERN = "HH'h'mm'm'ss.SSS's'";
 	
+	//Keybinds
+	public static String START = "start";
+	public static String PAUSE = "pause";
+	public static String HIDE = "hide";
+	public static String RESET = "reset";
+	public static String SAVE = "save";
+	public static String WAIT = "...";
+	private static String[] illegalKeys = {"Ctrl", "Alt", "Shift", "ù", "Undefined"};
+	public static List<String> ILLEGALKEYS = Arrays.asList(illegalKeys);
 }

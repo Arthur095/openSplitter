@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +28,8 @@ import control.model.Split;
 
 public class RootLayoutController {
 
+	private Stage RootStage;
+	
     // Reference to the main application
     private MainApp mainApp;
 
@@ -39,6 +42,10 @@ public class RootLayoutController {
         this.mainApp = mainApp;
     }
 
+    public void fillKeybinds() {
+    	mainApp.getKeybinds().put(Config.SAVE, new Runnable(){@Override public void run() {handleSaveCurr();}});
+    }
+    
     /**
      * Opens a new box to add a game.
      */
@@ -124,6 +131,9 @@ public class RootLayoutController {
      */
     @FXML
     private void handleSaveCurr() {
+    	if(mainApp.getCurrentGame() == null) {
+    		return;
+    	}
     	HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
     	ArrayList<Split> myGame = new ArrayList<Split>(mainApp.getTableData());
     	myGame.remove(myGame.size()-1);
@@ -138,7 +148,12 @@ public class RootLayoutController {
      */
     @FXML
     private void handleKeybinds() {
-		mainApp.showEditKeybindsDialog();
+		HashMap<KeyCombination,Runnable> accelerators = mainApp.showEditKeybindsDialog();
+		if(accelerators != null) {
+			
+			mainApp.getPrimaryStage().getScene().getAccelerators().clear();
+			mainApp.getPrimaryStage().getScene().getAccelerators().putAll(accelerators);
+		}
     }
 
     /**
@@ -150,4 +165,7 @@ public class RootLayoutController {
     	return;
     }
 
+    public void setRootStage(Stage stage) {
+    	this.RootStage = stage;
+    }
 }

@@ -3,6 +3,7 @@ package control;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.github.cliftonlabs.json_simple.JsonException;
 
@@ -20,6 +21,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
@@ -44,6 +48,8 @@ public class MainApp extends Application {
 	private JsonReadWrite inputFile;
 	private String currentGame;
 	private String filePath = Config.FILEPATH;
+	
+	private HashMap<String, Runnable> Keybinds = new HashMap<String, Runnable>();
     
 	/**
      * Empty Constructor
@@ -97,6 +103,7 @@ public class MainApp extends Application {
             // Give the controller access to the main app.
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
+            controller.fillKeybinds();
             
             primaryStage.show();
         } catch (IOException e) {
@@ -113,14 +120,16 @@ public class MainApp extends Application {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource(Config.COREOVERVIEW));
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            AnchorPane coreOverview = (AnchorPane) loader.load();
             
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(personOverview);
+            rootLayout.setCenter(coreOverview);
             
             // Give the controller access to the main app.
             CoreOverviewController controller = loader.getController();
             controller.setMainApp(this);
+            controller.fillKeybinds();
+            
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,7 +167,7 @@ public class MainApp extends Application {
         }
     }
     
-    public void showEditKeybindsDialog() {
+    public HashMap<KeyCombination, Runnable> showEditKeybindsDialog() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -176,13 +185,15 @@ public class MainApp extends Application {
             // Set the stage into the controller.
             EditKeybindsController controller = loader.getController();
             controller.setDialogStage(dialogStage);
+            controller.setKeybinds(Keybinds);
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
             dialogStage.showAndWait();
-            return;
+
+            return controller.getAccelerators();
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
     }
     
@@ -263,6 +274,9 @@ public class MainApp extends Application {
 
 	public Alert getAlert() {
 		return Alert;
+	}
+	public HashMap<String, Runnable> getKeybinds() {
+		return Keybinds;
 	}
 
 }

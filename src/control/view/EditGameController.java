@@ -131,6 +131,9 @@ public class EditGameController {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+		dialogStage.setOnCloseRequest(event -> {
+			gameSplits = null;
+		});
     }
     
 	public ArrayList<Split> getGameSplits() {

@@ -47,7 +47,7 @@
                   <Button layoutX="148.0" layoutY="8.0" mnemonicParsing="false" onAction="#startSplitTimer" prefHeight="90.0" prefWidth="150.0" text="Start/Split" AnchorPane.bottomAnchor="60.0" />
                </children>
             </AnchorPane>
-            <TableView fx:id="splitTable" prefHeight="436.0" prefWidth="430.0" style="-fx-selection-bar-non-focused: #008DCF; -fx-selection-bar: #008DCF; -fx-background-color: #323435; -fx-base: #323435; -fx-table-cell-border-color: white;" tableMenuButtonVisible="true" GridPane.columnIndex="1">
+            <TableView fx:id="splitTable" prefHeight="436.0" prefWidth="430.0" style="-fx-selection-bar-non-focused: #008DCF; -fx-selection-bar: #008DCF; -fx-background-color: #323435; -fx-base: #323435; -fx-table-cell-border-color: white;" stylesheets="@Style.css" tableMenuButtonVisible="true" GridPane.columnIndex="1">
               <columns>
                 <TableColumn fx:id="logoColumn" editable="false" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Logo" />
                 <TableColumn fx:id="splitColumn" editable="false" prefWidth="139.0" sortable="false" text="Split" />

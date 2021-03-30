@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -19,6 +20,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,7 +34,7 @@ import java.util.Optional;
 import com.github.cliftonlabs.json_simple.JsonException;
 
 public class CoreOverviewController {
-	
+
 	/*Attributes*/
 	private boolean hidden = false;
 	private Chrono splitTimer = new Chrono();
@@ -108,6 +112,13 @@ public class CoreOverviewController {
         this.mainApp.setInputFile(reader);
     	//Initialize game combobox
     	gameBox.getItems().addAll(reader.gameList());
+    }
+    
+    public void fillKeybinds() {
+    	mainApp.getKeybinds().put(Config.START, new Runnable(){@Override public void run() {startSplitTimer();}});
+    	mainApp.getKeybinds().put(Config.PAUSE, new Runnable(){@Override public void run() {pauseSplitTimer();}});
+    	mainApp.getKeybinds().put(Config.RESET, new Runnable(){@Override public void run() {resetSplitTimer();}});
+    	mainApp.getKeybinds().put(Config.HIDE, new Runnable(){@Override public void run() {hideShowTimer();}});
     }
     
     /*Buttons*/

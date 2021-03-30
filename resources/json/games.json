@@ -1,92 +1,92 @@
 {
 	"Super Mario Odyssey - Any%":[
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.201",
+			"sob":"0.201",
 			"name":"Cap",
 			"logo":".\/resources\/logo\/smo\/smo_00.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.369",
+			"sob":"0.167",
 			"name":"Cascade",
 			"logo":".\/resources\/logo\/smo\/smo_01.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.529",
+			"sob":"0.160",
 			"name":"Sand",
 			"logo":".\/resources\/logo\/smo\/smo_02.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.680",
+			"sob":"0.151",
 			"name":"Lake",
 			"logo":".\/resources\/logo\/smo\/smo_03.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.812",
+			"sob":"0.132",
 			"name":"Wooded",
 			"logo":".\/resources\/logo\/smo\/smo_04.jpeg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"0.945",
+			"sob":"0.132",
 			"name":"Cloud",
 			"logo":".\/resources\/logo\/smo\/smo_05.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.970",
+			"sob":"0.152",
 			"name":"Lost",
 			"logo":".\/resources\/logo\/smo\/smo_06.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.249",
+			"sob":"0.152",
 			"name":"Metro(Night)",
 			"logo":".\/resources\/logo\/smo\/smo_07.jpeg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.377",
+			"sob":"0.127",
 			"name":"Metro(Day)",
 			"logo":".\/resources\/logo\/smo\/smo_08.jpeg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.514",
+			"sob":"0.137",
 			"name":"Snow",
 			"logo":".\/resources\/logo\/smo\/smo_09.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.659",
+			"sob":"0.145",
 			"name":"Seaside",
 			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.809",
+			"sob":"0.149",
 			"name":"Luncheon",
 			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"1.944",
+			"sob":"0.135",
 			"name":"Ruined",
 			"logo":".\/resources\/logo\/smo\/smo_11.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"2.970",
+			"sob":"0.153",
 			"name":"Bowsers",
 			"logo":".\/resources\/logo\/smo\/smo_12.jpg"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":"2.241",
+			"sob":"0.144",
 			"name":"Moon",
 			"logo":".\/resources\/logo\/smo\/smo_13.png"
 		}
