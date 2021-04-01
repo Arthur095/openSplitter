@@ -33,31 +33,41 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import json.JsonReadWrite;
 
+/**
+ * 
+ * @author github: Arthur095
+ *
+ */
 public class MainApp extends Application {
 	
 	/*Attributes*/
+	
+	/*UI & Dialog boxes*/
     private Stage primaryStage;
     private BorderPane rootLayout;
     private Alert Alert = new Alert(AlertType.CONFIRMATION);
     
+    /*Time arrays and visualization list*/
     private ObservableList<Split> tableData = FXCollections.observableArrayList();
 	private ArrayList<Double> currentSplitTimes = new ArrayList<Double>();
 	private ArrayList<Double> currentSumOfBest = new ArrayList<Double>();
 	private ArrayList<Double> currentPersonalBest = new ArrayList<Double>();
 	
+	/*Files*/
 	private JsonReadWrite inputFile;
 	private String currentGame;
 	private String filePath = Config.FILEPATH;
 	
+	/*Keybinds array*/
 	private HashMap<String, Runnable> Keybinds = new HashMap<String, Runnable>();
     
 	/**
-     * Empty Constructor
+     * Empty Constructor, set up alert dialog box and program style sheet.
      */
 	public MainApp() {
-		//Put one empty Split when opening the program to display tableview
+		// Put one empty Split when opening the program to display tableview.
 		tableData.add(new Split());
-		//Set Dialog box icon.
+		// Set Dialog box icon.
 		Stage alertStage = (Stage) Alert.getDialogPane().getScene().getWindow();
 		alertStage.getIcons().add(new Image(Config.DEFAULTURI));
 		DialogPane dialogPane = Alert.getDialogPane();
@@ -78,21 +88,22 @@ public class MainApp extends Application {
         try {
 			showCoreOverview();
 		} catch (JsonException e) {
-			e.printStackTrace();
+			JsonReadWrite file = new JsonReadWrite(Config.FILEPATH);
+			file.toJson(new HashMap<String, ArrayList<Split>>());
 		}
         
-        //Blocking Width resizing.
+        // Blocking Width resizing.
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
         this.primaryStage.setMinWidth(this.primaryStage.getWidth());
         
-        //Adding app Icon.
+        // Adding app Icon.
         this.primaryStage.getIcons().add(new Image(Config.DEFAULTURI));
         
-        //Loading key binding.
+        // Loading key binding.
         JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
         primaryStage.getScene().getAccelerators().clear();
         primaryStage.getScene().getAccelerators().putAll(combo.loadKeybinds(Keybinds));
-    }
+    }//start
     
     /**
      * Initializes the root layout.
@@ -104,7 +115,7 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource(Config.ROOTLAYOUT));
             rootLayout = (BorderPane) loader.load();
             
-            //Show the scene containing the root layout.
+            // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             
@@ -117,7 +128,7 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }//initRootLayout
 
     /**
      * Shows the person overview inside the root layout.
@@ -136,14 +147,20 @@ public class MainApp extends Application {
             // Give the controller access to the main app.
             CoreOverviewController controller = loader.getController();
             controller.setMainApp(this);
+            
+            // Add Runnable to keybinds array.
             controller.fillKeybinds();
             
             
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }//showCoreOverview
     
+    /**
+     * Handles game editing dialog box.
+     * @return
+     */
     public ArrayList<Split> showEditGameDialog() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -163,18 +180,27 @@ public class MainApp extends Application {
             EditGameController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             ArrayList<Split> splits = new ArrayList<Split>(inputFile.fromJson(currentGame));
+            
+            // Send splits to the controller and set up combo boxes.
             controller.setGameSplits(splits);
             controller.setCombobox();
+            
+            // Blocking dialog box size and adding icon.
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
+            
             dialogStage.showAndWait();
             return controller.getGameSplits();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-    }
+    }//showEditGameDialog
     
+    /**
+     * Handles keybind edition dialog box.
+     * @return HashMap<KeyCombination, Runnable>; the javafx formatted keybind map.
+     */
     public HashMap<KeyCombination, Runnable> showEditKeybindsDialog() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -192,11 +218,17 @@ public class MainApp extends Application {
 
             // Set the stage into the controller.
             EditKeybindsController controller = loader.getController();
+            
+            // Send to the controller MainApp keybinds and scene accelerators.
             controller.setDialogStage(dialogStage);
             controller.setKeybinds(Keybinds);
             HashMap<KeyCombination, Runnable> kb = new HashMap<KeyCombination, Runnable>(primaryStage.getScene().getAccelerators());
             controller.setAccelerators(kb);
+            
+            // Set up buttons text of controller according to keybinds name.
             controller.setupButton();
+            
+            // Blocking dialog box size and adding icon.
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
             dialogStage.showAndWait();
@@ -206,8 +238,11 @@ public class MainApp extends Application {
             e.printStackTrace();
             return null;
         }
-    }
+    }//showEditKeybindsDialog
     
+    /**
+     * Plays a mp3 or wav file.
+     */
     public void playAlertSound() {
         try{
    
@@ -220,16 +255,18 @@ public class MainApp extends Application {
         catch(Exception ex){
         	return;
         }
-    }
+    }//playAlertSound
+    
+    /*MAIN*/
     
     /**
-     * 
      * Main
      */
 	public static void main(String[] args) {
-        launch(args);  
+        launch(MainApp.class, args);  
     }
 	
+	/*Getters & Setters*/
 	
 	/**
 	 * Returns the main stage.

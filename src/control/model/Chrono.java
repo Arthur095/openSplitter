@@ -20,7 +20,11 @@ import java.util.TimeZone;
 
 import control.Config;
 
-
+/**
+ * 
+ * Handles a thread linked timer and provides static methods for time formating.
+ *
+ */
 public class Chrono{
 	
 	/*Attributes*/
@@ -78,7 +82,7 @@ public class Chrono{
 	}//formatTimeDelta
 	
 	/**
-	 * Converts hours:minutes:seconds.milliseconds to seconds.milliseconds .
+	 * Convert hours:minutes:seconds.milliseconds to seconds.milliseconds .
 	 * @param timeString
 	 * @return
 	 */
@@ -153,5 +157,4 @@ public class Chrono{
 		this.fullTimer = fullTimer;
 	}
 
-	
 }

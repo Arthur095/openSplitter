@@ -12,6 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Dialog UI controller that handles game split adding or deleting.
+ *
+ */
 public class EditGameController {
 	
 	/*Attributes*/
@@ -43,10 +48,10 @@ public class EditGameController {
      */
     @FXML
     private void initialize() {
-    }
+    }//initialize
 	
     /**
-     * When the add button is pressed, create a new split matching the values of text fields and put it in gameSplits array in the index of the selected combobox item, then update comboboxes
+     * When the add button is pressed, create a new split matching the values of text fields and put it in gameSplits array in the index of the selected combobox item, then update comboboxes.
      */
     @FXML
     public void handleAdd(){
@@ -65,7 +70,7 @@ public class EditGameController {
 	    	nameField.setText(Config.EMPTY);
 	    	logoField.setText(Config.EMPTY);
     	}
-    }
+    }//handleAdd
     
     /**
      * When delete is pressed, remove from gameSplits array the selected object in combobox, then update comboboxes
@@ -78,10 +83,10 @@ public class EditGameController {
     	ArrayList<String> splitNameList = gameSplits.stream().map(Split::splitName).collect(Collectors.toCollection(ArrayList::new));
     	gameSplits.remove(splitNameList.indexOf(deleteBox.getSelectionModel().getSelectedItem()));
     	setCombobox();
-    }
+    }//handleDelete
     
     /**
-     * Open a file explorer to fill the logo path text field with selected file absolute path
+     * Open a file explorer to fill the logo path text field with selected file absolute path.
      */
     @FXML
     public void handleBrowse(){
@@ -92,7 +97,7 @@ public class EditGameController {
     	if(file != null) {
     		logoField.setText(file.getAbsolutePath().toString());
     	}
-    }
+    }//handleBrowser
     
     /**
      * When finish is pressed, close the dialog and keeps state of gameSplits array
@@ -100,7 +105,7 @@ public class EditGameController {
     @FXML
     public void handleFinish(){
     	dialogStage.close();
-    }
+    }//handleFinish
     
     /**
      * When cancel is pressed, close the dialog and nullify gameSplits array
@@ -109,10 +114,10 @@ public class EditGameController {
     public void handleCancel(){
     	gameSplits = null;
     	dialogStage.close();
-    }
+    }//handleCancel
     
     /**
-     * Fill the dialog comboboxes with current data from gameSplits
+     * Fill the dialog comboboxes with current data from gameSplits.
      */
     public void setCombobox() {
     	ArrayList<String> splitNameList = gameSplits.stream().map(Split::splitName).collect(Collectors.toCollection(ArrayList::new));
@@ -121,12 +126,12 @@ public class EditGameController {
     	addBox.getItems().add(Config.FIRST);
     	addBox.getItems().addAll(splitNameList);
     	deleteBox.getItems().addAll(splitNameList);
-    }
+    }//setCombobox
     
     /*Getters & Setters*/
     
     /**
-     * Sets the stage of this dialog.
+     * Sets the stage of this dialog and add listener to cancel editing if windows is closed without using finish button.
      * @param dialogStage
      */
     public void setDialogStage(Stage dialogStage) {

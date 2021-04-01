@@ -31,7 +31,11 @@ import control.Config;
 import control.MainApp;
 import control.model.Split;
 
-
+/**
+ * 
+ * MenuBar options UI controller. Handles dialog and alert box opening, adding game, deleting game, saving current game data and deleting current game specific data.
+ * Does not have attribute.
+ */
 public class RootLayoutController {
 	
     // Reference to the main application
@@ -46,12 +50,15 @@ public class RootLayoutController {
         this.mainApp = mainApp;
     }
 
+    /**
+     * Fill mainapp keybinds map with Runnable of this controller methods.
+     */
     public void fillKeybinds() {
     	mainApp.getKeybinds().put(Config.SAVE, new Runnable(){@Override public void run() {handleSaveCurr();}});
-    }
+    }//fillKeybinds
     
     /**
-     * Opens a new box to add a game.
+     * Opens a dialog box to add a free split game and save it to json file if confirmed.
      */
     @FXML
     private void handleAddGame() {
@@ -67,7 +74,7 @@ public class RootLayoutController {
 		Stage Stage = (Stage) dialog.getDialogPane().getScene().getWindow();
 		Stage.getIcons().add(new Image(Config.ICON));
 
-    	// Traditional way to get the response value.
+    	// Check if game already exists.
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    try {
@@ -88,10 +95,10 @@ public class RootLayoutController {
     	else {
     		return;
     	}
-    }
+    }//handleAddGame
     
     /**
-     * Opens a new box to configure new game and its splits.
+     * Opens a dialog box to configure a game and its splits and save changes to json file if confirmed.
      */
     @FXML
     private void handleEditGame() {
@@ -107,10 +114,10 @@ public class RootLayoutController {
 			MainApp mainApp = new MainApp();
 			mainApp.start(this.mainApp.getPrimaryStage());
     	}
-    }
+    }//handleEditGame
     
     /**
-     * Delete the current game from the game list.
+     * Delete the current game from the game list and save changes to json file if confirmed.
      */
     @FXML
     private void handleDeleteGame() {
@@ -128,7 +135,7 @@ public class RootLayoutController {
 			} 
 			return;
     	}
-    }
+    }//handleDeleteGame
 
     /**
      * Saves current Pb & Sob in json.
@@ -145,10 +152,10 @@ public class RootLayoutController {
     	allGames.get(mainApp.getCurrentGame()).clear();
     	allGames.get(mainApp.getCurrentGame()).addAll(myGame);
     	mainApp.getInputFile().toJson(allGames);
-	}
+	}//handleSaveCurr
     
     /**
-     * Opens the keybinds dialog box.
+     * Opens the keybinds dialog box and save changes to json file if confirmed.
      */
     @FXML
     private void handleKeybinds() {
@@ -160,7 +167,7 @@ public class RootLayoutController {
 			JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
 			combo.saveKeybinds(convertKeyMap(mainApp.getKeybinds(), accelerators));
 		}
-    }
+    }//handleKeybinds
 
     /*
      * Delete current game PB value in every split.
@@ -179,7 +186,7 @@ public class RootLayoutController {
 		    	}
 			}
     	}
-    }
+    }//handleDeletePB
     
     /*
      * Delete current game SOB in every split.
@@ -198,16 +205,16 @@ public class RootLayoutController {
 		    	}
 			}
     	}
-    }
+    }//handleDeleteSOB
     
     /**
-     * Opens the project Guthub page in default web browser.
+     * Opens the project Github page in default web browser.
      */
     @FXML
     private void handleGithub() {
     	mainApp.getHostServices().showDocument(Config.GITHUB);
     	return;
-    }
+    }//handleGithub
     
     /*
      * Converts accelerators map to a save-able map.
@@ -219,6 +226,6 @@ public class RootLayoutController {
     		newMap.put((String) Arrays.asList(keybinds.keySet().toArray()).get(indexVal), value.getKey());
     	}
     	return newMap;
-    }
+    }//convertKeyMap
 
 }

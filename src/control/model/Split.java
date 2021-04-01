@@ -10,6 +10,11 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Split model class to visualize data in a javafx tableview.
+ * @author github: Arthur095
+ *
+ */
 public class Split {
 
 	/*Attributes*/

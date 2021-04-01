@@ -4,6 +4,8 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -20,16 +22,29 @@ import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
-
+/**
+ * 
+ * Handles reading and writing of the file given to the constructor, on json format using Simple.JSON library.
+ *
+ */
 public class JsonReadWrite {
 	
+	/*Attributes*/
 	private String jsonPath;
 	
+	/**
+	 * Constructor
+	 * @param jsonPath, the file path.
+	 */
 	public JsonReadWrite(String jsonPath) {
 		this.jsonPath = jsonPath;
 	}
 	
-	// Extraction des segments pour un jeu choisi par l’utilisateur pour remplir le tableview.
+	/**
+	 * Add to splits data from key given in parameter, then add split in a list which is returned at end.
+	 * @param String gameName
+	 * @return ObservableList<Split> 
+	 */
 	public ObservableList<Split> fromJson (String gameName) {
 		ObservableList<Split> game = FXCollections.observableArrayList();
 		try
@@ -59,8 +74,14 @@ public class JsonReadWrite {
             e.printStackTrace();
         }
 		return game;
-    }
+    }//fromJson
 	
+	/**
+	 * Put in an array of double the data read from file according to the keys name.
+	 * @param String gameName, the game as key of json.
+	 * @param String row, the sob or pb line in key's data.
+	 * @return ArrayList<Double>
+	 */
 	public ArrayList<Double> getGameTimes(String gameName, String row){
 		ArrayList<Double> times = new ArrayList<Double>();
 		try
@@ -89,9 +110,14 @@ public class JsonReadWrite {
             e.printStackTrace();
         }
 		return times;
-	}
+	}//getGameTimes
 	
-	// Fournit la liste des jeux stockés dans le json
+	/**
+	 * Get all main keys of json, games, and put it in a list.
+	 * @return ArrayList<String>
+	 * @throws IOException
+	 * @throws JsonException
+	 */
 	public ArrayList<String> gameList() throws IOException, JsonException {
 		ArrayList<String> allGames = new ArrayList<String>();
 		try {
@@ -103,10 +129,13 @@ public class JsonReadWrite {
 			((Throwable) e).printStackTrace();
 		}
 		return allGames;
-		}
+		}//gameList
 	
 	
-	// Stocker le json dans un HashMap
+	/**
+	 * Converts the whole json file read into a map.
+	 * @return HashMap<String,ArrayList<Split>>
+	 */
 	public HashMap<String,ArrayList<Split>> toHashMap() {
 		HashMap<String,ArrayList<Split>> gameData = new HashMap<String,ArrayList<Split>>();
 		try {
@@ -121,10 +150,13 @@ public class JsonReadWrite {
 			e.printStackTrace();
 		}
 		return gameData;
-	}
+	}//toHashMap
 	
 
-	// Écrire un nouveau jeu avec ses segments dans le json
+	/**
+	 * Writes the given map into the json file.
+	 * @param Map<String, ArrayList<Split>> gameData 
+	 */
 	@SuppressWarnings("unchecked")
 	public void toJson(Map<String, ArrayList<Split>> gameData) {
 		
@@ -161,13 +193,21 @@ public class JsonReadWrite {
 			file.write(Jsoner.prettyPrint(Jsoner.serialize(jsonGameName)));
 			}
 		catch (IOException e) {
-        e.printStackTrace();
+			File file = new File(Config.FILEPATH);
+			try {
+				file.createNewFile();
+				toJson(gameData);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
         }
 
-	}
+	}//toJson
 	
-	/*
-	 * Save
+	/**
+	 * Saves into the json file the given map in parameter.
+	 * @param HashMap<String, KeyCombination> keybinds
 	 */
 	public void saveKeybinds(HashMap<String, KeyCombination> keybinds) {
 		
@@ -180,12 +220,18 @@ public class JsonReadWrite {
 			file.write(Jsoner.prettyPrint(Jsoner.serialize(combo)));
 			}
 		catch (IOException e) {
-        e.printStackTrace();
+			File file = new File(Config.CONFIGPATH);
+			try {
+				file.createNewFile();
+				saveKeybinds(keybinds);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
         }
-	}
+	}//saveKeybinds
 	
 	/**
-	 * Load
+	 * Converts the json file to the javafx keybinds map format according to the matching value of map keys given in parameter.
 	 * @return HashMap<String, String>
 	 */
 	public HashMap<KeyCombination, Runnable> loadKeybinds(HashMap<String, Runnable> keybinds) {
@@ -207,5 +253,5 @@ public class JsonReadWrite {
             e.printStackTrace();
         }
 		return accelerators;
-	}
+	}//loadKeybinds
 }

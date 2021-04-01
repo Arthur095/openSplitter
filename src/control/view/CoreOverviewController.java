@@ -33,6 +33,12 @@ import java.util.Optional;
 
 import com.github.cliftonlabs.json_simple.JsonException;
 
+/**
+ * 
+ * Always visible UI Pane controller, containing tableview, buttons and timer string.
+ * Handles buttons actions and tableview changes.
+ *
+ */
 public class CoreOverviewController {
 
 	/*Attributes*/
@@ -82,20 +88,20 @@ public class CoreOverviewController {
      */
     @FXML
     private void initialize(){
-    	//Initialize timer label
+    	//Initializes timer label.
     	currentTimeSeconds.setText(Chrono.formatTime(0.0));
     	
-    	// Initialize the person table with the two columns.
+    	// Initializes the splits table.
         logoColumn.setCellValueFactory(cellData -> cellData.getValue().logoProperty());
         splitColumn.setCellValueFactory(cellData -> cellData.getValue().splitNameProperty());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
         personalBestColumn.setCellValueFactory(cellData -> cellData.getValue().personalBestProperty());  
         sumOfBestColumn.setCellValueFactory(cellData -> cellData.getValue().sumOfBestProperty()); 
         deltaColumn.setCellValueFactory(cellData -> cellData.getValue().deltaProperty()); 
-    }
+    }//initialize
 
     /**
-     * Is called by the main application to give a reference back to itself.
+     * Is called by the main application to give a reference back to itself and set attributes from mainapp data.
      * 
      * @param mainApp
      * @throws JsonException 
@@ -110,14 +116,17 @@ public class CoreOverviewController {
         this.mainApp.setInputFile(reader);
     	//Initialize game combobox
     	gameBox.getItems().addAll(reader.gameList());
-    }
+    }//setMainApp
     
+    /**
+     * Fill mainapp keybinds map with Runnable of this controller methods.
+     */
     public void fillKeybinds() {
     	mainApp.getKeybinds().put(Config.START, new Runnable(){@Override public void run() {startSplitTimer();}});
     	mainApp.getKeybinds().put(Config.PAUSE, new Runnable(){@Override public void run() {pauseSplitTimer();}});
     	mainApp.getKeybinds().put(Config.RESET, new Runnable(){@Override public void run() {resetSplitTimer();}});
     	mainApp.getKeybinds().put(Config.HIDE, new Runnable(){@Override public void run() {hideShowTimer();}});
-    }
+    }//fillKeybinds
     
     /*Buttons*/
     
@@ -199,10 +208,10 @@ public class CoreOverviewController {
     			splitTable.scrollTo(mainApp.getTableData().size()-1);
     		}
     	}
-    }//StartPlitTimer
+    }//StartSplitTimer
     
     /**
-     * Called when the user clicks on Pause : Pauses timer.
+     * Called when the user clicks on Pause : Pause timer.
      */
     @FXML
     private void pauseSplitTimer() {
@@ -213,7 +222,7 @@ public class CoreOverviewController {
     }//pauseSplitTimer
     
     /**
-     * Called when the user clicks on Reset : Reset time and make time table white.
+     * Called when the user clicks on Reset : Reset time and makes time table column empty.
      */
     @FXML
     private void resetSplitTimer() {
@@ -236,6 +245,7 @@ public class CoreOverviewController {
     		currentTimeSeconds.textProperty().unbind();
     		currentTimeSeconds.setText(Chrono.formatTime(0.0));
     		
+    		//Set delta column cell label color back to normal.
         	deltaColumn.setCellFactory((deltaColumn) -> {
         	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {
         	    	@Override
@@ -248,7 +258,7 @@ public class CoreOverviewController {
     }//resetSplitTimer
     
     /**
-     * Hide or show the timer label 
+     * Hide or show the timer label, on/off button.
      */
     @FXML
     private void hideShowTimer() {
@@ -328,7 +338,7 @@ public class CoreOverviewController {
     }//checkPersonalBest
     
     /**
-     * Check if PB is ready to be saved even if player press the reset button or change game.
+     * Check if PB is ready to be saved. If true, opens alert dialog box to confirm PB saving.
      */
     private void checkPbDiag() {
 		mainApp.getAlert().setHeaderText(Config.PBHEADER);
@@ -353,11 +363,11 @@ public class CoreOverviewController {
     		mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Config.ZERODELTA);
     		return;
     	}
-    	//Per column
+    	// Per column
     	getSplit().deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
-    	//Sum column
+    	// Sum column
     	mainApp.getTableData().get(mainApp.getTableData().size()-1).deltaProperty().setValue(Chrono.formatTime(mainApp.getCurrentSplitTimes().get(splitTableId), mainApp.getCurrentPersonalBest().get(splitTableId)));
-    	
+    	// Set color for delta column cell label.
     	deltaColumn.setCellFactory((deltaColumn) -> {
     	    TableCell<Split, String> tableCell = new TableCell<Split, String>() {
     	    	@Override
@@ -365,7 +375,7 @@ public class CoreOverviewController {
     	            super.updateItem(item, empty);
                     if (item != null) {
                         this.setTextFill(Color.GREEN);
-                        //Change color based on data
+                        // Change color based on data
                         if(item.contains(Config.PLUS)) 
                             this.setTextFill(Color.RED);
                         setText(item);
@@ -378,7 +388,7 @@ public class CoreOverviewController {
     
     /*Getter & Setters*/
     
-    //Most used method pattern reduced to improve readability.
+    // Most used method pattern reduced to improve readability.
     private Split getSplit() {
     	return mainApp.getTableData().get(splitTableId);
     }

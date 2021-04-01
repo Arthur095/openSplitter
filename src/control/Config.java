@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 
+ * Const var definition class.
+ *
+ */
 public class Config {
 	
 	//MainApp
