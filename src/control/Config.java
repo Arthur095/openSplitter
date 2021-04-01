@@ -71,6 +71,8 @@ public class Config {
 	public static String RESET = "reset";
 	public static String SAVE = "save";
 	public static String WAIT = "...";
+	public static String UNBIND = "Set";
 	private static String[] illegalKeys = {"Ctrl", "Alt", "Shift", "ù", "Undefined"};
 	public static List<String> ILLEGALKEYS = Arrays.asList(illegalKeys);
+	public static String CONFIGPATH = "./resources/json/config.json";
 }

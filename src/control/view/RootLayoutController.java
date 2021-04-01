@@ -3,9 +3,14 @@ package control.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 
 import com.github.cliftonlabs.json_simple.JsonException;
@@ -21,14 +26,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import json.JsonReadWrite;
 import control.Config;
 import control.MainApp;
 import control.model.Split;
 
 
 public class RootLayoutController {
-
-	private Stage RootStage;
 	
     // Reference to the main application
     private MainApp mainApp;
@@ -150,10 +154,21 @@ public class RootLayoutController {
     private void handleKeybinds() {
 		HashMap<KeyCombination,Runnable> accelerators = mainApp.showEditKeybindsDialog();
 		if(accelerators != null) {
-			
 			mainApp.getPrimaryStage().getScene().getAccelerators().clear();
 			mainApp.getPrimaryStage().getScene().getAccelerators().putAll(accelerators);
+			//Saving key binding in config.json
+			JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
+			combo.saveKeybinds(convertKeyMap(mainApp.getKeybinds(), accelerators));
 		}
+    }
+    
+    private HashMap<String, KeyCombination> convertKeyMap(HashMap<String, Runnable> keybinds, HashMap<KeyCombination, Runnable> accelerators){
+    	HashMap<String, KeyCombination> newMap = new HashMap<String, KeyCombination>();
+    	for(Map.Entry<KeyCombination, Runnable> value : accelerators.entrySet()) {
+    		int indexVal = Arrays.asList(keybinds.values().toArray()).indexOf(value.getValue());
+    		newMap.put((String) Arrays.asList(keybinds.keySet().toArray()).get(indexVal), value.getKey());
+    	}
+    	return newMap;
     }
 
     /**
@@ -165,7 +180,4 @@ public class RootLayoutController {
     	return;
     }
 
-    public void setRootStage(Stage stage) {
-    	this.RootStage = stage;
-    }
 }

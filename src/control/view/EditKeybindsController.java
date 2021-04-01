@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -42,11 +43,10 @@ public class EditKeybindsController {
 	/*Attributes*/
 	private Stage dialogStage;
 	
-	@FXML
-	private AnchorPane mainPane;
-	
 	private HashMap<String, Runnable> Keybinds = new HashMap<String, Runnable>();
 	private HashMap<KeyCombination, Runnable> Accelerators = new HashMap<KeyCombination, Runnable>();	
+
+	private EventHandler<MouseEvent> mouseHandler = MouseEvent::consume;
 	
     /*Buttons*/
     @FXML
@@ -65,6 +65,12 @@ public class EditKeybindsController {
     private CheckBox ctrlBox;
     @FXML
     private CheckBox altBox;
+    @FXML
+    private CheckBox unbindBox;
+    
+    /*Scene*/
+	@FXML
+	private AnchorPane mainPane;
     
     /**
      * The constructor.
@@ -85,26 +91,12 @@ public class EditKeybindsController {
 	            k.consume();
 	        }
 	    });
-	
-	//Hande checkboxes
-    ctrlBox.selectedProperty().addListener((o, oldValue, newValue) -> {
-        if (newValue == true) {
-        	altBox.setSelected(false);
-        }
-    });
-    altBox.selectedProperty().addListener((o, oldValue, newValue) -> {
-        if (newValue == true) {
-        	ctrlBox.setSelected(false);
-        }
-    });
     }
     
-    //attention à la scene des accelerateurs...
+    
     @FXML
     private void handleSet(Event event) {
-    	EventHandler<MouseEvent> mouseHandler = MouseEvent::consume;
-    	dialogStage.addEventFilter(MouseEvent.ANY, mouseHandler);
-    	
+    
     	Button button = (Button) event.getSource();
     	String hashKey;
     	
@@ -128,9 +120,17 @@ public class EditKeybindsController {
     			hashKey = Config.START;
     			break;
     	}
+    	
+    	if(unbindBox.isSelected()) {
+    		Accelerators.values().removeIf(value -> value.equals(Keybinds.get(hashKey)));
+    		button.setText(Config.UNBIND);
+    		return;
+    	}
+    	
     	String oldKey = button.getText();
     	button.setText(Config.WAIT);
- 
+    	dialogStage.addEventFilter(MouseEvent.ANY, mouseHandler);
+    	
         dialogStage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -139,7 +139,6 @@ public class EditKeybindsController {
             	if(Config.ILLEGALKEYS.contains(key)) {
             		return;
             	}
-                button.setText(key);
                 
                 dialogStage.getScene().setOnKeyPressed(null);
                 Accelerators.values().removeIf(value -> value.equals(Keybinds.get(hashKey)));
@@ -147,21 +146,23 @@ public class EditKeybindsController {
                 if(ctrlBox.isSelected()) {
                 	KeyCodeCombination keybind = new KeyCodeCombination(event.getCode(), KeyCombination.CONTROL_DOWN);
                 	bind = keybind;
+                	button.setText(bind.getName());
                 }
                 else if(altBox.isSelected()) {
                 	KeyCodeCombination keybind = new KeyCodeCombination(event.getCode(), KeyCombination.ALT_DOWN);
                 	bind = keybind;
+                	button.setText(bind.getName());
                 }
                 else {
                 	KeyCodeCombination keybind = new KeyCodeCombination(event.getCode());
                 	bind = keybind;
+                	button.setText(bind.getName());
                 }
                 if(Accelerators.containsKey(bind)) {
                 	button.setText(oldKey);
                 	return;
                 }
                 Accelerators.put(bind, Keybinds.get(hashKey));
-                System.out.println(Accelerators.toString());
             }
         });
     }
@@ -184,6 +185,58 @@ public class EditKeybindsController {
     	dialogStage.close();
     }
     
+    @FXML
+    public void handleUnbindBox() {
+    	if(unbindBox.isSelected()) {
+    		ctrlBox.setSelected(false);
+    		altBox.setSelected(false);
+    	}
+    }
+    
+    @FXML
+    public void handleCtrlBox() {
+    	if(ctrlBox.isSelected()) {
+    		unbindBox.setSelected(false);
+    		altBox.setSelected(false);
+    	}
+    }
+    
+    @FXML
+    public void handleAltBox() {
+    	if(altBox.isSelected()) {
+    		unbindBox.setSelected(false);
+    		ctrlBox.setSelected(false);
+    	}
+    }
+    
+    public void setupButton() {
+    	HashMap<String, KeyCombination> acc = new HashMap<String, KeyCombination>();
+       	for(Map.Entry<KeyCombination, Runnable> value : Accelerators.entrySet()) {
+    		int indexVal = Arrays.asList(Keybinds.values().toArray()).indexOf(value.getValue());
+    		acc.put((String) Arrays.asList(Keybinds.keySet().toArray()).get(indexVal), value.getKey());
+    	}
+       	for(String key : acc.keySet()) {
+       		switch (key){
+	       		case "start":
+	       			startButton.setText(acc.get(key).getName());
+	       			break;
+	       		case "pause":
+	       			pauseButton.setText(acc.get(key).getName());
+	       			break;
+	       		case "hide":
+	       			hideButton.setText(acc.get(key).getName());
+	       			break;
+	       		case "save":
+	       			saveButton.setText(acc.get(key).getName());
+	       			break;
+	       		case "reset":
+	       			resetButton.setText(acc.get(key).getName());
+	       			break;
+	       		default:
+	       			break;
+       		}
+       	}
+    }
     /*Getters & Setters*/
  
     public HashMap<KeyCombination, Runnable> getAccelerators(){
@@ -191,7 +244,7 @@ public class EditKeybindsController {
     }
     
     /**
-     * Sets the stage of this dialog.
+     * Sets the stage of this dialog and add a listener in case it get closed without the cancel button
      * @param dialogStage
      */
     public void setDialogStage(Stage dialogStage) {
@@ -204,5 +257,7 @@ public class EditKeybindsController {
     public void setKeybinds(HashMap<String, Runnable> keybinds) {
     	this.Keybinds = keybinds;
     }
-
+	public void setAccelerators(HashMap<KeyCombination, Runnable> accelerators) {
+		Accelerators = accelerators;
+	}
 }

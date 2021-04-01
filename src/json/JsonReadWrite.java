@@ -17,6 +17,8 @@ import control.model.Chrono;
 import control.model.Split;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 
 public class JsonReadWrite {
@@ -162,5 +164,48 @@ public class JsonReadWrite {
         e.printStackTrace();
         }
 
+	}
+	
+	/*
+	 * Save
+	 */
+	public void saveKeybinds(HashMap<String, KeyCombination> keybinds) {
+		
+		JsonObject combo = new JsonObject();
+		for(String key : keybinds.keySet()) {
+			combo.put(key, keybinds.get(key).getName());
+		}
+		// Écriture du json
+		try (FileWriter file = new FileWriter(jsonPath)) {
+			file.write(Jsoner.prettyPrint(Jsoner.serialize(combo)));
+			}
+		catch (IOException e) {
+        e.printStackTrace();
+        }
+	}
+	
+	/**
+	 * Load
+	 * @return HashMap<String, String>
+	 */
+	public HashMap<KeyCombination, Runnable> loadKeybinds(HashMap<String, Runnable> keybinds) {
+		HashMap<KeyCombination, Runnable> accelerators = new HashMap<KeyCombination, Runnable>();
+		try
+		{ 
+            JsonObject runSet = (JsonObject) Jsoner.deserialize(new FileReader(jsonPath)); 
+            for(String key : runSet.keySet()) {
+            	Runnable function = keybinds.get(key);
+            	accelerators.put(KeyCombination.keyCombination(runSet.get(key).toString()), function);
+            }
+		}
+		catch(FileNotFoundException fe)
+        {
+            fe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+		return accelerators;
 	}
 }

@@ -43,8 +43,6 @@ public class CoreOverviewController {
 	/*Labels*/
 	@FXML
 	private Label currentTimeSeconds; //Timer
-	@FXML
-	private Label game;
 	
 	/*Table attributes*/
 	@FXML

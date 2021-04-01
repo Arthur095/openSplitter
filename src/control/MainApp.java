@@ -81,9 +81,17 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
         
+        //Blocking Width resizing.
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
         this.primaryStage.setMinWidth(this.primaryStage.getWidth());
+        
+        //Adding app Icon.
         this.primaryStage.getIcons().add(new Image(Config.DEFAULTURI));
+        
+        //Loading key binding.
+        JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
+        primaryStage.getScene().getAccelerators().clear();
+        primaryStage.getScene().getAccelerators().putAll(combo.loadKeybinds(Keybinds));
     }
     
     /**
@@ -186,6 +194,9 @@ public class MainApp extends Application {
             EditKeybindsController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setKeybinds(Keybinds);
+            HashMap<KeyCombination, Runnable> kb = new HashMap<KeyCombination, Runnable>(primaryStage.getScene().getAccelerators());
+            controller.setAccelerators(kb);
+            controller.setupButton();
             dialogStage.setResizable(false);
             dialogStage.getIcons().add(new Image(Config.DEFAULTURI));
             dialogStage.showAndWait();

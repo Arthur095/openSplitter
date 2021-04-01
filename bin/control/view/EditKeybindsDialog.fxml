@@ -45,7 +45,8 @@
       <Button fx:id="resetButton" layoutX="191.0" layoutY="216.0" mnemonicParsing="false" onAction="#handleSet" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #868687; -fx-text-fill: white;" text="Set" />
       <Button fx:id="saveButton" layoutX="191.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleSet" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #868687; -fx-text-fill: white;" text="Set" />
       <Button fx:id="pauseButton" layoutX="191.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleSet" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #868687; -fx-text-fill: white;" text="Set" />
-      <CheckBox fx:id="ctrlBox" layoutX="257.0" layoutY="30.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="CTRL" />
-      <CheckBox fx:id="altBox" layoutX="315.0" layoutY="30.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="51.0" style="-fx-text-fill: white;" text="ALT" />
+      <CheckBox fx:id="ctrlBox" layoutX="257.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleCtrlBox" style="-fx-text-fill: white;" text="CTRL" />
+      <CheckBox fx:id="altBox" layoutX="315.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleAltBox" prefHeight="17.0" prefWidth="51.0" style="-fx-text-fill: white;" text="ALT" />
+      <CheckBox fx:id="unbindBox" layoutX="257.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleUnbindBox" style="-fx-text-fill: white;" text="UNBIND" />
    </children>
 </AnchorPane>
