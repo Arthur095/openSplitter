@@ -40,10 +40,10 @@ public class JsonReadWrite {
             	JsonObject split_features = (JsonObject) split;
             	String sob = null;
             	String pb = null;
-            	if (!(split_features.get(Config.SOB).equals(Config.NULL))) {
+            	if (!(split_features.get(Config.SOB) == null)) {
             		sob = Chrono.formatTime(Double.parseDouble((String) split_features.get(Config.SOB)));
             	}
-            	if (!(split_features.get(Config.PB).equals(Config.NULL))) {
+            	if (!(split_features.get(Config.PB) == null)) {
             		pb = Chrono.formatTime(Double.parseDouble((String) split_features.get(Config.PB)));
             	}
             	Split Segment = new Split(split_features.get(Config.NAME).toString(),split_features.get(Config.LOGO).toString(), pb, sob);
@@ -70,7 +70,7 @@ public class JsonReadWrite {
             for (Object split : splits.toArray()) {
             	JsonObject split_features = (JsonObject) split;
             	Double time = null;
-            	if (!(split_features.get(row).equals(Config.NULL))) {
+            	if (!(split_features.get(row) == null)) {
             		times.add(Double.parseDouble((String) split_features.get(row)));
             		
             	}
@@ -139,13 +139,13 @@ public class JsonReadWrite {
 					jsonVal.put(Config.PB, Chrono.reverseFormatTime(val.personalBestProperty().getValueSafe()));
 				}
 				catch(Exception e) {
-					jsonVal.put(Config.PB, Config.NULL);
+					jsonVal.put(Config.PB, null);
 				}
 				try {
 					jsonVal.put(Config.SOB, Chrono.reverseFormatTime(val.sumOfBestProperty().getValueSafe()));
 				}
 				catch(Exception e) {
-					jsonVal.put(Config.SOB, Config.NULL);
+					jsonVal.put(Config.SOB, null);
 				}
 				
 				jsonVal.put(Config.NAME, val.splitNameProperty().getValueSafe());

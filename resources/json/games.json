@@ -1,172 +1,172 @@
 {
 	"Super Mario Odyssey - Any%":[
 		{
-			"pb":"0.201",
-			"sob":"0.201",
+			"pb":null,
+			"sob":null,
 			"name":"Cap",
 			"logo":".\/resources\/logo\/smo\/smo_00.png"
 		},
 		{
-			"pb":"0.369",
-			"sob":"0.167",
+			"pb":null,
+			"sob":null,
 			"name":"Cascade",
 			"logo":".\/resources\/logo\/smo\/smo_01.png"
 		},
 		{
-			"pb":"0.529",
-			"sob":"0.160",
+			"pb":null,
+			"sob":null,
 			"name":"Sand",
 			"logo":".\/resources\/logo\/smo\/smo_02.png"
 		},
 		{
-			"pb":"0.680",
-			"sob":"0.151",
+			"pb":null,
+			"sob":null,
 			"name":"Lake",
 			"logo":".\/resources\/logo\/smo\/smo_03.jpg"
 		},
 		{
-			"pb":"0.812",
-			"sob":"0.132",
+			"pb":null,
+			"sob":null,
 			"name":"Wooded",
 			"logo":".\/resources\/logo\/smo\/smo_04.jpeg"
 		},
 		{
-			"pb":"0.945",
-			"sob":"0.132",
+			"pb":null,
+			"sob":null,
 			"name":"Cloud",
 			"logo":".\/resources\/logo\/smo\/smo_05.jpg"
 		},
 		{
-			"pb":"1.970",
-			"sob":"0.152",
+			"pb":null,
+			"sob":null,
 			"name":"Lost",
 			"logo":".\/resources\/logo\/smo\/smo_06.png"
 		},
 		{
-			"pb":"1.249",
-			"sob":"0.152",
+			"pb":null,
+			"sob":null,
 			"name":"Metro(Night)",
 			"logo":".\/resources\/logo\/smo\/smo_07.jpeg"
 		},
 		{
-			"pb":"1.377",
-			"sob":"0.127",
+			"pb":null,
+			"sob":null,
 			"name":"Metro(Day)",
 			"logo":".\/resources\/logo\/smo\/smo_08.jpeg"
 		},
 		{
-			"pb":"1.514",
-			"sob":"0.137",
+			"pb":null,
+			"sob":null,
 			"name":"Snow",
 			"logo":".\/resources\/logo\/smo\/smo_09.jpg"
 		},
 		{
-			"pb":"1.659",
-			"sob":"0.145",
+			"pb":null,
+			"sob":null,
 			"name":"Seaside",
 			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
 		},
 		{
-			"pb":"1.809",
-			"sob":"0.149",
+			"pb":null,
+			"sob":null,
 			"name":"Luncheon",
 			"logo":".\/resources\/logo\/smo\/smo_10.jpg"
 		},
 		{
-			"pb":"1.944",
-			"sob":"0.135",
+			"pb":null,
+			"sob":null,
 			"name":"Ruined",
 			"logo":".\/resources\/logo\/smo\/smo_11.jpg"
 		},
 		{
-			"pb":"2.970",
-			"sob":"0.153",
+			"pb":null,
+			"sob":null,
 			"name":"Bowsers",
 			"logo":".\/resources\/logo\/smo\/smo_12.jpg"
 		},
 		{
-			"pb":"2.241",
-			"sob":"0.144",
+			"pb":null,
+			"sob":null,
 			"name":"Moon",
 			"logo":".\/resources\/logo\/smo\/smo_13.png"
 		}
 	],
 	"The Legend of Zelda : The Wind Waker HD - Any%":[
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Wind Waker",
 			"logo":".\/resources\/logo\/ww\/ww_00.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Bottle",
 			"logo":".\/resources\/logo\/ww\/ww_01.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Grapple",
 			"logo":".\/resources\/logo\/ww\/ww_02.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Quiver",
 			"logo":".\/resources\/logo\/ww\/ww_03.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"FF1",
 			"logo":".\/resources\/logo\/ww\/ww_04.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Leaf",
 			"logo":".\/resources\/logo\/ww\/ww_05.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"FF2",
 			"logo":".\/resources\/logo\/ww\/ww_06.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"EMS",
 			"logo":".\/resources\/logo\/ww\/ww_07.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Barrier Skip",
 			"logo":".\/resources\/logo\/ww\/ww_08.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Light Arrows",
 			"logo":".\/resources\/logo\/ww\/ww_09.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Puppet Ganon",
 			"logo":".\/resources\/logo\/ww\/ww_10.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Spicy Hover",
 			"logo":".\/resources\/logo\/ww\/ww_11.png"
 		},
 		{
-			"pb":"null",
-			"sob":"null",
+			"pb":null,
+			"sob":null,
 			"name":"Ganondorf",
 			"logo":".\/resources\/logo\/ww\/ww_12.png"
 		}

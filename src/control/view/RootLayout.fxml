@@ -20,6 +20,8 @@
               <MenuItem mnemonicParsing="false" onAction="#handleAddGame" text="Add game" />
                   <MenuItem mnemonicParsing="false" onAction="#handleEditGame" text="Edit curr. game" />
                   <MenuItem mnemonicParsing="false" onAction="#handleDeleteGame" text="Delete curr. game" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleDeletePB" text="Delete PB" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteSOB" text="Delete SOB" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

@@ -1,7 +1,7 @@
 {
-	"hide":"Alt+G",
-	"save":"Alt+S",
-	"start":"Ctrl+S",
-	"reset":"Ctrl+E",
-	"pause":"Ctrl+D"
+	"hide":"Ctrl+G",
+	"start":"Ctrl+D",
+	"save":"Ctrl+I",
+	"reset":"Ctrl+H",
+	"pause":"Ctrl+F"
 }

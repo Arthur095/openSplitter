@@ -161,16 +161,45 @@ public class RootLayoutController {
 			combo.saveKeybinds(convertKeyMap(mainApp.getKeybinds(), accelerators));
 		}
     }
-    
-    private HashMap<String, KeyCombination> convertKeyMap(HashMap<String, Runnable> keybinds, HashMap<KeyCombination, Runnable> accelerators){
-    	HashMap<String, KeyCombination> newMap = new HashMap<String, KeyCombination>();
-    	for(Map.Entry<KeyCombination, Runnable> value : accelerators.entrySet()) {
-    		int indexVal = Arrays.asList(keybinds.values().toArray()).indexOf(value.getValue());
-    		newMap.put((String) Arrays.asList(keybinds.keySet().toArray()).get(indexVal), value.getKey());
-    	}
-    	return newMap;
-    }
 
+    /*
+     * Delete current game PB value in every split.
+     */
+    @FXML
+    private void handleDeletePB(){
+    	if(mainApp.getCurrentGame() != null) {
+    		mainApp.getAlert().setTitle(Config.DELPBTITLE);
+			mainApp.getAlert().setHeaderText(Config.DELPBHEADER);
+			mainApp.getAlert().setContentText(Config.DELPBCONTENT);
+			Optional<ButtonType> result = mainApp.getAlert().showAndWait();
+			if (result.get() == ButtonType.OK){
+	    	mainApp.getCurrentPersonalBest().clear();
+		    	for(Split split : mainApp.getTableData()) {
+		    		split.personalBestProperty().setValue(null);
+		    	}
+			}
+    	}
+    }
+    
+    /*
+     * Delete current game SOB in every split.
+     */
+    @FXML
+    private void handleDeleteSOB(){
+    	if(mainApp.getCurrentGame() != null) {
+    		mainApp.getAlert().setTitle(Config.DELSOBTITLE);
+			mainApp.getAlert().setHeaderText(Config.DELSOBHEADER);
+			mainApp.getAlert().setContentText(Config.DELSOBCONTENT);
+			Optional<ButtonType> result = mainApp.getAlert().showAndWait();
+			if (result.get() == ButtonType.OK){
+				mainApp.getCurrentSumOfBest().replaceAll( t -> !(Objects.isNull(t))? null : t );
+		    	for(Split split : mainApp.getTableData()) {
+		    		split.sumOfBestProperty().setValue(null);
+		    	}
+			}
+    	}
+    }
+    
     /**
      * Opens the project Guthub page in default web browser.
      */
@@ -178,6 +207,18 @@ public class RootLayoutController {
     private void handleGithub() {
     	mainApp.getHostServices().showDocument(Config.GITHUB);
     	return;
+    }
+    
+    /*
+     * Converts accelerators map to a save-able map.
+     */
+    private HashMap<String, KeyCombination> convertKeyMap(HashMap<String, Runnable> keybinds, HashMap<KeyCombination, Runnable> accelerators){
+    	HashMap<String, KeyCombination> newMap = new HashMap<String, KeyCombination>();
+    	for(Map.Entry<KeyCombination, Runnable> value : accelerators.entrySet()) {
+    		int indexVal = Arrays.asList(keybinds.values().toArray()).indexOf(value.getValue());
+    		newMap.put((String) Arrays.asList(keybinds.keySet().toArray()).get(indexVal), value.getKey());
+    	}
+    	return newMap;
     }
 
 }

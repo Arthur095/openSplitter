@@ -188,7 +188,7 @@ public class CoreOverviewController {
     			splitTimer.getTimeline().stop();
     			
     	    	Double pbtime = mainApp.getCurrentSplitTimes().get(mainApp.getCurrentSplitTimes().size()-1);
-    	    	if( mainApp.getCurrentPersonalBest().contains(null) || mainApp.getCurrentPersonalBest().get(mainApp.getCurrentPersonalBest().size()-1) > pbtime ) {
+    	    	if( mainApp.getCurrentPersonalBest().contains(null) || mainApp.getCurrentPersonalBest().size() == 0 || mainApp.getCurrentPersonalBest().get(mainApp.getCurrentPersonalBest().size()-1) > pbtime ) {
     	    		mainApp.playAlertSound();
     	    		checkPbDiag();
     	    	}
@@ -345,7 +345,7 @@ public class CoreOverviewController {
      * Put time difference between PB and current time with color & signed time.
      */
     private void checkDelta() {
-    	if(mainApp.getCurrentPersonalBest().contains(null)) {
+    	if(mainApp.getCurrentPersonalBest().contains(null) || mainApp.getCurrentPersonalBest().size() == 0) {
     		return;
     	}
     	if(mainApp.getCurrentSplitTimes().get(splitTableId) == mainApp.getCurrentPersonalBest().get(splitTableId)) {
