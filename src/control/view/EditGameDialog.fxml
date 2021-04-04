@@ -4,11 +4,21 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="430.0" maxWidth="380.0" minHeight="430.0" minWidth="380.0" prefHeight="430.0" prefWidth="380.0" style="-fx-background-color: #323435;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.view.EditGameController">
    <children>
+      <Button layoutX="323.0" layoutY="153.0" maxHeight="25.0" maxWidth="32.0" minHeight="25.0" minWidth="32.0" mnemonicParsing="false" onAction="#handleBrowse" prefHeight="25.0" prefWidth="32.0" scaleShape="false">
+         <graphic>
+            <ImageView fitHeight="46.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resources/logo/buttons/javadot.jpg" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label layoutX="14.0" layoutY="14.0" prefHeight="49.0" prefWidth="162.0" style="-fx-text-fill: white;" text="Add a split" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="20.0" />
@@ -19,7 +29,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="203.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleFinish" prefHeight="35.0" prefWidth="61.0" text="Finish" />
       <ComboBox fx:id="deleteBox" layoutX="26.0" layoutY="301.0" prefHeight="25.0" prefWidth="329.0" style="-fx-background-color: #868687;" stylesheets="@Style.css" />
       <ComboBox fx:id="addBox" layoutX="26.0" layoutY="85.0" prefHeight="25.0" prefWidth="329.0" style="-fx-background-color: #868687;" />
       <Label layoutX="26.0" layoutY="63.0" prefHeight="25.0" prefWidth="39.0" style="-fx-text-fill: white;" text="After">
@@ -27,7 +36,14 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="26.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
+      <Button layoutX="26.0" layoutY="349.0" maxHeight="25.0" maxWidth="50.0" minHeight="25.0" minWidth="50.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="25.0" prefWidth="50.0" scaleShape="false">
+         <graphic>
+            <ImageView fitHeight="49.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resources/logo/buttons/javadelete.jpg" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <TextField fx:id="nameField" layoutX="26.0" layoutY="153.0" style="-fx-background-color: #868687; -fx-text-fill: white;" />
       <TextField fx:id="logoField" layoutX="206.0" layoutY="153.0" prefHeight="25.0" prefWidth="118.0" style="-fx-background-color: #868687; -fx-text-fill: white;" />
       <Label layoutX="26.0" layoutY="136.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Name">
@@ -40,8 +56,29 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="26.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleAdd" text="Add" />
-      <Button layoutX="323.0" layoutY="153.0" mnemonicParsing="false" onAction="#handleBrowse" prefHeight="25.0" prefWidth="32.0" text="..." />
-      <Button layoutX="281.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="35.0" prefWidth="61.0" text="Cancel" />
+      <Button layoutX="26.0" layoutY="200.0" maxHeight="25.0" maxWidth="40.0" minHeight="25.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="40.0" scaleShape="false">
+         <graphic>
+            <ImageView fitHeight="56.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resources/logo/buttons/javaadd.jpg" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button layoutX="293.0" layoutY="377.0" maxHeight="35.0" maxWidth="60.0" minHeight="35.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="35.0" prefWidth="60.0" scaleShape="false">
+         <graphic>
+            <ImageView fitHeight="71.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resources/logo/buttons/javacancel.jpg" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button layoutX="190.0" layoutY="377.0" maxHeight="35.0" maxWidth="60.0" minHeight="35.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleFinish" prefHeight="35.0" prefWidth="60.0" scaleShape="false">
+         <graphic>
+            <ImageView fitHeight="68.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resources/logo/buttons/javafinisht.jpg" />
+               </image>
+            </ImageView>
+         </graphic></Button>
    </children>
 </AnchorPane>
