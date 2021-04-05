@@ -17,4 +17,4 @@ Launch the .bat or .sh using a command line.
 
 ## Preview
 ![](./resources/logo/preview.png)  
-You can edit colors modifying .css stylesheet in src/view.
+You can edit colors modifying .css stylesheet in src/control/view.
