@@ -1,30 +1,23 @@
 package control.view;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
 
-import com.github.cliftonlabs.json_simple.JsonException;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import json.JsonNotFoundException;
 import json.JsonReadWrite;

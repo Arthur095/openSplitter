@@ -19,7 +19,6 @@ import control.model.Chrono;
 import control.model.Split;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
 /**
@@ -146,7 +145,6 @@ public class JsonReadWrite {
 	 * @param Map<String, ArrayList<Split>> gameData 
 	 * @throws JsonNotFoundException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void toJson(Map<String, ArrayList<Split>> gameData) throws JsonNotFoundException {
 		
 		JsonObject jsonGameName = new JsonObject();
