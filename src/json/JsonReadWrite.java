@@ -44,8 +44,10 @@ public class JsonReadWrite {
 	 * Add to splits data from key given in parameter, then add split in a list which is returned at end.
 	 * @param String gameName
 	 * @return ObservableList<Split> 
+	 * @throws JsonException 
+	 * @throws FileNotFoundException 
 	 */
-	public ObservableList<Split> fromJson (String gameName) {
+	public ObservableList<Split> fromJson (String gameName) throws JsonNotFoundException {
 		ObservableList<Split> game = FXCollections.observableArrayList();
 		try
 		{ 
@@ -65,13 +67,9 @@ public class JsonReadWrite {
             	game.add(Segment);
             	}
 		}
-		catch(FileNotFoundException fe)
+		catch(JsonException | FileNotFoundException fe)
         {
-            fe.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
+            throw new JsonNotFoundException(Config.GAMESNF);
         }
 		return game;
     }//fromJson
@@ -82,7 +80,7 @@ public class JsonReadWrite {
 	 * @param String row, the sob or pb line in key's data.
 	 * @return ArrayList<Double>
 	 */
-	public ArrayList<Double> getGameTimes(String gameName, String row){
+	public ArrayList<Double> getGameTimes(String gameName, String row) throws JsonNotFoundException{
 		ArrayList<Double> times = new ArrayList<Double>();
 		try
 		{ 
@@ -101,13 +99,9 @@ public class JsonReadWrite {
             }
             
 		}
-		catch(FileNotFoundException fe)
+		catch(JsonException | FileNotFoundException fe)
         {
-            fe.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
+            throw new JsonNotFoundException(Config.GAMESNF);
         }
 		return times;
 	}//getGameTimes
@@ -115,10 +109,9 @@ public class JsonReadWrite {
 	/**
 	 * Get all main keys of json, games, and put it in a list.
 	 * @return ArrayList<String>
-	 * @throws IOException
-	 * @throws JsonException
+	 * @throws JsonNotFoundException 
 	 */
-	public ArrayList<String> gameList() throws IOException, JsonException {
+	public ArrayList<String> gameList() throws JsonNotFoundException {
 		ArrayList<String> allGames = new ArrayList<String>();
 		try {
 			JsonObject runSet = (JsonObject) Jsoner.deserialize(new FileReader(jsonPath)); 
@@ -126,7 +119,7 @@ public class JsonReadWrite {
 				allGames.add(game.toString());
 			}
 		} catch (IOException | JsonException e) {
-			((Throwable) e).printStackTrace();
+			throw new JsonNotFoundException(Config.GAMESNF);
 		}
 		return allGames;
 		}//gameList
@@ -135,20 +128,15 @@ public class JsonReadWrite {
 	/**
 	 * Converts the whole json file read into a map.
 	 * @return HashMap<String,ArrayList<Split>>
+	 * @throws JsonNotFoundException 
 	 */
-	public HashMap<String,ArrayList<Split>> toHashMap() {
+	public HashMap<String,ArrayList<Split>> toHashMap() throws JsonNotFoundException {
 		HashMap<String,ArrayList<Split>> gameData = new HashMap<String,ArrayList<Split>>();
-		try {
 			for(String gameName : gameList()) {
 				ArrayList<Split> game = new ArrayList<Split>();
 				game.addAll(fromJson(gameName));
 				gameData.put(gameName, game);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JsonException e) {
-			e.printStackTrace();
-		}
 		return gameData;
 	}//toHashMap
 	
@@ -156,9 +144,10 @@ public class JsonReadWrite {
 	/**
 	 * Writes the given map into the json file.
 	 * @param Map<String, ArrayList<Split>> gameData 
+	 * @throws JsonNotFoundException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void toJson(Map<String, ArrayList<Split>> gameData) {
+	public void toJson(Map<String, ArrayList<Split>> gameData) throws JsonNotFoundException {
 		
 		JsonObject jsonGameName = new JsonObject();
 		for (String key : gameData.keySet()) {
@@ -193,23 +182,17 @@ public class JsonReadWrite {
 			file.write(Jsoner.prettyPrint(Jsoner.serialize(jsonGameName)));
 			}
 		catch (IOException e) {
-			File file = new File(Config.FILEPATH);
-			try {
-				file.createNewFile();
-				toJson(gameData);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-        }
+			throw new JsonNotFoundException(Config.GAMESNF);
+		}
 
 	}//toJson
 	
 	/**
 	 * Saves into the json file the given map in parameter.
 	 * @param HashMap<String, KeyCombination> keybinds
+	 * @throws JsonNotFoundException 
 	 */
-	public void saveKeybinds(HashMap<String, KeyCombination> keybinds) {
+	public void saveKeybinds(HashMap<String, KeyCombination> keybinds) throws JsonNotFoundException {
 		
 		JsonObject combo = new JsonObject();
 		for(String key : keybinds.keySet()) {
@@ -220,13 +203,7 @@ public class JsonReadWrite {
 			file.write(Jsoner.prettyPrint(Jsoner.serialize(combo)));
 			}
 		catch (IOException e) {
-			File file = new File(Config.CONFIGPATH);
-			try {
-				file.createNewFile();
-				saveKeybinds(keybinds);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			throw new JsonNotFoundException(Config.CONFNF);
         }
 	}//saveKeybinds
 	
@@ -234,7 +211,7 @@ public class JsonReadWrite {
 	 * Converts the json file to the javafx keybinds map format according to the matching value of map keys given in parameter.
 	 * @return HashMap<String, String>
 	 */
-	public HashMap<KeyCombination, Runnable> loadKeybinds(HashMap<String, Runnable> keybinds) {
+	public HashMap<KeyCombination, Runnable> loadKeybinds(HashMap<String, Runnable> keybinds) throws JsonNotFoundException {
 		HashMap<KeyCombination, Runnable> accelerators = new HashMap<KeyCombination, Runnable>();
 		try
 		{ 
@@ -244,14 +221,27 @@ public class JsonReadWrite {
             	accelerators.put(KeyCombination.keyCombination(runSet.get(key).toString()), function);
             }
 		}
-		catch(FileNotFoundException fe)
+		catch(Exception fe)
         {
-            fe.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
+            throw new JsonNotFoundException(Config.CONFNF);
         }
 		return accelerators;
 	}//loadKeybinds
+	
+	
+	/**
+	 * Create an useable json empty file.
+	 */
+	public static void createFile(String path) {
+		JsonObject jsonFile = new JsonObject();
+    	try {
+    		File file = new File(path);
+			file.createNewFile();
+			FileWriter fileWriter = new FileWriter(path);
+			fileWriter.write(Jsoner.serialize(jsonFile).toString());
+			fileWriter.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -26,6 +26,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import json.JsonNotFoundException;
 import json.JsonReadWrite;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class CoreOverviewController {
      * @throws JsonException 
      * @throws IOException 
      */
-    public void setMainApp(MainApp mainApp) throws IOException, JsonException {
+    public void setMainApp(MainApp mainApp) throws JsonNotFoundException {
         this.mainApp = mainApp;
         // Add observable list data to the table
         splitTable.setItems(mainApp.getTableData());
@@ -277,7 +278,7 @@ public class CoreOverviewController {
      * @param game
      */
     @FXML
-    private void chooseGame(ActionEvent event) {
+    private void chooseGame(ActionEvent event) throws JsonNotFoundException {
     	if(!(splitTimer.getTimeline() == null)) {
     		gameBox.getSelectionModel().select(mainApp.getCurrentGame());
     	}

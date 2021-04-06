@@ -149,6 +149,7 @@ public class EditKeybindsController {
             	}
                 
                 dialogStage.getScene().setOnKeyPressed(null);
+                System.out.println(Accelerators.toString());
                 Accelerators.values().removeIf(value -> value.equals(Keybinds.get(hashKey)));
                 KeyCodeCombination bind = null;
                 if(ctrlBox.isSelected()) {

@@ -26,6 +26,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import json.JsonNotFoundException;
 import json.JsonReadWrite;
 import control.Config;
 import control.MainApp;
@@ -59,9 +60,11 @@ public class RootLayoutController {
     
     /**
      * Opens a dialog box to add a free split game and save it to json file if confirmed.
+     * @throws IOException 
+     * @throws JsonNotFoundException 
      */
     @FXML
-    private void handleAddGame() {
+    private void handleAddGame() throws IOException, JsonNotFoundException{
     	TextInputDialog dialog = new TextInputDialog();
 		DialogPane dialogPane = dialog.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource(Config.PSTYLESHEET).toExternalForm());
@@ -74,40 +77,52 @@ public class RootLayoutController {
 		Stage Stage = (Stage) dialog.getDialogPane().getScene().getWindow();
 		Stage.getIcons().add(new Image(Config.ICON));
 
+		
     	// Check if game already exists.
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
-    	    try {
+    		Map<String, ArrayList<Split>> allGames = new TreeMap<String, ArrayList<Split>>();
+    		try {
 				if(mainApp.getInputFile().gameList().contains(result.get())){
 					return;
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JsonException e) {
-				e.printStackTrace();
-			}
-    	    Map<String, ArrayList<Split>> allGames = new TreeMap<String, ArrayList<Split>>(mainApp.getInputFile().toHashMap());
-    	    allGames.put(result.get(), new ArrayList<Split>());
-			mainApp.getInputFile().toJson(allGames);
+			    allGames = mainApp.getInputFile().toHashMap();
+			    allGames.put(result.get(), new ArrayList<Split>());
+				mainApp.getInputFile().toJson(allGames);
+    		} catch (JsonNotFoundException jnfe) {
+            	JsonReadWrite.createFile(Config.FILEPATH);
+            	allGames.put(result.get(), new ArrayList<Split>());
+				mainApp.getInputFile().toJson(allGames);
+    		}
 			MainApp mainApp = new MainApp();
 			mainApp.start(this.mainApp.getPrimaryStage());
     	}
-    	else {
-    		return;
-    	}
+		else {
+			return;
+		}
     }//handleAddGame
     
     /**
      * Opens a dialog box to configure a game and its splits and save changes to json file if confirmed.
+     * @throws IOException 
+     * @throws JsonNotFoundException 
      */
     @FXML
-    private void handleEditGame() {
+    private void handleEditGame() throws IOException, JsonNotFoundException {
     	if(mainApp.getCurrentGame() != null) {
     		ArrayList<Split> editedGame = mainApp.showEditGameDialog();
     		if(editedGame == null) {
     			return;
     		}
-			HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+			HashMap<String, ArrayList<Split>> allGames = new HashMap<String, ArrayList<Split>>();
+			try {
+				allGames = mainApp.getInputFile().toHashMap();
+			} catch (JsonNotFoundException e) {
+				JsonReadWrite.createFile(Config.FILEPATH);
+				MainApp mainApp = new MainApp();
+				mainApp.start(this.mainApp.getPrimaryStage());
+				return;
+			}
 			allGames.get(mainApp.getCurrentGame()).clear();
 			allGames.get(mainApp.getCurrentGame()).addAll(editedGame);
 			mainApp.getInputFile().toJson(allGames);
@@ -118,16 +133,26 @@ public class RootLayoutController {
     
     /**
      * Delete the current game from the game list and save changes to json file if confirmed.
+     * @throws IOException 
+     * @throws JsonNotFoundException 
      */
     @FXML
-    private void handleDeleteGame() {
+    private void handleDeleteGame() throws IOException, JsonNotFoundException {
     	if(mainApp.getCurrentGame() != null) {
     		mainApp.getAlert().setTitle(Config.DELTITLE);
 			mainApp.getAlert().setHeaderText(Config.DELHEADER);
 			mainApp.getAlert().setContentText(Config.DELCONTENT);
 			Optional<ButtonType> result = mainApp.getAlert().showAndWait();
 			if (result.get() == ButtonType.OK){
-				HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+				HashMap<String, ArrayList<Split>> allGames = new HashMap<String, ArrayList<Split>>();
+				try {
+					allGames = mainApp.getInputFile().toHashMap();
+				} catch (JsonNotFoundException jnfe) {
+					JsonReadWrite.createFile(Config.FILEPATH);
+					MainApp mainApp = new MainApp();
+					mainApp.start(this.mainApp.getPrimaryStage());
+					return;
+				}
 				allGames.remove(mainApp.getCurrentGame());
 				mainApp.getInputFile().toJson(allGames);
 				MainApp mainApp = new MainApp();
@@ -139,19 +164,36 @@ public class RootLayoutController {
 
     /**
      * Saves current Pb & Sob in json.
+     * @throws JsonNotFoundException 
      */
     @FXML
-    private void handleSaveCurr() {
+    private void handleSaveCurr(){
     	if(mainApp.getCurrentGame() == null) {
     		return;
     	}
-    	HashMap<String, ArrayList<Split>> allGames = mainApp.getInputFile().toHashMap();
+    	HashMap<String, ArrayList<Split>> allGames = new HashMap<String, ArrayList<Split>>();
+    	try {
+    		allGames = mainApp.getInputFile().toHashMap();
+    	}catch(JsonNotFoundException jnfe) {
+        	JsonReadWrite.createFile(Config.FILEPATH);
+    	}
     	ArrayList<Split> myGame = new ArrayList<Split>(mainApp.getTableData());
     	myGame.remove(myGame.size()-1);
     	myGame.remove(myGame.size()-1);
-    	allGames.get(mainApp.getCurrentGame()).clear();
-    	allGames.get(mainApp.getCurrentGame()).addAll(myGame);
-    	mainApp.getInputFile().toJson(allGames);
+    	if(allGames.size() > 0) {
+	    	allGames.get(mainApp.getCurrentGame()).clear();
+    		allGames.get(mainApp.getCurrentGame()).addAll(myGame);
+    	}
+    	else{
+    		allGames.put(mainApp.getCurrentGame(), myGame);
+    	}
+    	try {
+    		mainApp.getInputFile().toJson(allGames);
+    	}
+    	catch (JsonNotFoundException jnfe){
+    		JsonReadWrite.createFile(Config.FILEPATH);
+    		handleSaveCurr();
+    	}
 	}//handleSaveCurr
     
     /**
@@ -165,7 +207,17 @@ public class RootLayoutController {
 			mainApp.getPrimaryStage().getScene().getAccelerators().putAll(accelerators);
 			//Saving key binding in config.json
 			JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
-			combo.saveKeybinds(convertKeyMap(mainApp.getKeybinds(), accelerators));
+			HashMap<String, KeyCombination> convertedMap = convertKeyMap(mainApp.getKeybinds(), accelerators);
+			try {
+				combo.saveKeybinds(convertedMap);
+			} catch (JsonNotFoundException jnfe) {
+				JsonReadWrite.createFile(Config.CONFIGPATH);
+				try {
+					combo.saveKeybinds(convertedMap);
+				} catch (JsonNotFoundException e) {
+					e.printStackTrace();
+				}	
+			}
 		}
     }//handleKeybinds
 

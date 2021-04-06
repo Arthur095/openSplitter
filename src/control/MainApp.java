@@ -31,6 +31,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import json.JsonNotFoundException;
 import json.JsonReadWrite;
 
 /**
@@ -77,9 +78,10 @@ public class MainApp extends Application {
 
 	/**
 	 * Initializes layouts and set layout configurations.
+	 * @throws IOException 
 	 */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle(Config.APPTITLE);
         
@@ -87,10 +89,11 @@ public class MainApp extends Application {
         
         try {
 			showCoreOverview();
-		} catch (JsonException e) {
-			JsonReadWrite file = new JsonReadWrite(Config.FILEPATH);
-			file.toJson(new HashMap<String, ArrayList<Split>>());
-		}
+        }catch (JsonNotFoundException jnfe) {
+        	JsonReadWrite.createFile(Config.FILEPATH);
+        	MainApp mainApp = new MainApp();
+			mainApp.start(primaryStage);
+        }
         
         // Blocking Width resizing.
         this.primaryStage.setMaxWidth(this.primaryStage.getWidth());
@@ -102,7 +105,12 @@ public class MainApp extends Application {
         // Loading key binding.
         JsonReadWrite combo = new JsonReadWrite(Config.CONFIGPATH);
         primaryStage.getScene().getAccelerators().clear();
-        primaryStage.getScene().getAccelerators().putAll(combo.loadKeybinds(Keybinds));
+        
+        try {
+        	primaryStage.getScene().getAccelerators().putAll(combo.loadKeybinds(Keybinds));
+        }catch(JsonNotFoundException e) {
+        	JsonReadWrite.createFile(Config.CONFIGPATH);
+        }
     }//start
     
     /**
@@ -125,16 +133,17 @@ public class MainApp extends Application {
             controller.fillKeybinds();
             
             primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+        	showCriticalError(Config.ROOTLAYOUT, 101);
         }
     }//initRootLayout
 
     /**
      * Shows the person overview inside the root layout.
      * @throws JsonException 
+     * @throws JsonNotFoundException 
      */
-    public void showCoreOverview() throws JsonException {
+    public void showCoreOverview() throws JsonNotFoundException {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
@@ -146,14 +155,15 @@ public class MainApp extends Application {
             
             // Give the controller access to the main app.
             CoreOverviewController controller = loader.getController();
-            controller.setMainApp(this);
-            
+     
             // Add Runnable to keybinds array.
+            controller.setMainApp(this);
             controller.fillKeybinds();
+          
             
             
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            showCriticalError(Config.COREOVERVIEW, 102);
         }
     }//showCoreOverview
     
@@ -191,8 +201,11 @@ public class MainApp extends Application {
             
             dialogStage.showAndWait();
             return controller.getGameSplits();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (JsonNotFoundException jnfe) {
+        	JsonReadWrite.createFile(Config.FILEPATH);
+        	return null;
+        } catch (Exception e) {
+        	showCriticalError(Config.EDITGAMEDIALOG, 103);
             return null;
         }
     }//showEditGameDialog
@@ -234,8 +247,8 @@ public class MainApp extends Application {
             dialogStage.showAndWait();
 
             return controller.getAccelerators();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+        	showCriticalError(Config.EDITKEYBINDSDIALOG, 104);
             return null;
         }
     }//showEditKeybindsDialog
@@ -256,6 +269,18 @@ public class MainApp extends Application {
         	return;
         }
     }//playAlertSound
+    
+    /**
+     * Shows an alert if files are missing
+     */
+    private void showCriticalError(String header, int error) {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle(Config.FAILTITLE);
+    	alert.setContentText(Config.FAILCONTENT);
+    	alert.setHeaderText(header);
+    	alert.showAndWait();
+    	System.exit(error);
+    }
     
     /*MAIN*/
     

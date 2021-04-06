@@ -23,6 +23,8 @@ public class Config {
 	public static String DEFAULTURI = "file:./resources/logo/default.png";
 	public static String STYLESHEET = "view/Style.css";
 	public static String STYLE = "myDialog";
+	public static String FAILTITLE = "ERROR";
+	public static String FAILCONTENT = "Important files are missing, you should download the application again.";
 	
 	
 	//CoreOverviewController
@@ -59,6 +61,9 @@ public class Config {
 	public static String PB = "pb";
 	public static String NAME = "name";
 	public static String LOGO = "logo";
+	public static String CONFNF = "config.json file not found. It will be created instead.";
+	public static String GAMESNF = "games.json file not found. It will be created instead.";
+	
 	
 	//Split
 	public static String FLAG = "./resources/logo/flag.png";
