@@ -5,7 +5,7 @@ You'll probably better use [Livesplit](https://livesplit.org/) excepting if you 
 ## Installation
 
 Download source code and unzip it.  
-Download [JavaFX15+ SDK](https://gluonhq.com/products/javafx/) and put downloaded jars file inside the ./lib/javafx_jar folder.  
+Download [JavaFX15+ SDK](https://gluonhq.com/products/javafx/) and put downloaded jar files inside the ./lib/javafx_jar folder.  
 Download [Json.Simple](https://cliftonlabs.github.io/json-simple/) 3.1.1 jar file and put it in ./lib/simplejson_jar folder.  
 Download and install [Open JDK](https://jdk.java.net/) 14 or more. 
 
