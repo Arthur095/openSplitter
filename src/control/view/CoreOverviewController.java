@@ -34,7 +34,6 @@ import com.github.cliftonlabs.json_simple.JsonException;
 public class CoreOverviewController {
 
 	/*Attributes*/
-	private boolean hidden = false;
 	private Chrono splitTimer = new Chrono();
 	private int splitTableId = 0;
 	
@@ -254,13 +253,11 @@ public class CoreOverviewController {
      */
     @FXML
     private void hideShowTimer() {
-    	if(hidden == false) {
+    	if(currentTimeSeconds.isVisible()) {
     		currentTimeSeconds.setVisible(false);
-    		hidden = true;
     	}
     	else {
     		currentTimeSeconds.setVisible(true);
-    		hidden = false;
     	}
     }//hideShowTimer
     
